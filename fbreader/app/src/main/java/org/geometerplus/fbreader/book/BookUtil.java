@@ -41,10 +41,18 @@ public abstract class BookUtil {
 	}
 
 	public static ZLResourceFile getHelpFile() {
+		Locale.setDefault(new Locale("ro", "RO")); //aplicatii.romanesti added
 		final Locale locale = Locale.getDefault();
-
+		
 		ZLResourceFile file = ZLResourceFile.createResourceFile(
-			"data/intro/intro-" + locale.getLanguage() + "_" + locale.getCountry() + ".epub"
+				"data/intro/intro-" + locale.getLanguage() + "_" + locale.getCountry() + ".epub"
+		);
+		if (file.exists()) {
+			return file;
+		}
+
+		 file = ZLResourceFile.createResourceFile(
+				"data/intro/intro-" + locale.getLanguage() + "_" + locale.getCountry() + ".fb2"
 		);
 		if (file.exists()) {
 			return file;
@@ -52,6 +60,13 @@ public abstract class BookUtil {
 
 		file = ZLResourceFile.createResourceFile(
 			"data/intro/intro-" + locale.getLanguage() + ".epub"
+		);
+		if (file.exists()) {
+			return file;
+		}
+
+		file = ZLResourceFile.createResourceFile(
+				"data/intro/intro-" + locale.getLanguage() + ".fb2"
 		);
 		if (file.exists()) {
 			return file;

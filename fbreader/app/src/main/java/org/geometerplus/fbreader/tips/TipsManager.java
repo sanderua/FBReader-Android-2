@@ -54,7 +54,8 @@ public class TipsManager {
 	}
 
 	private String getUrl() {
-		return "https://data.fbreader.org/tips/tips.php";
+		return "http://127.0.0.1/tips/tips.php";//aplicatii.romanesti to disable data usage.
+		//return "https://data.fbreader.org/tips/tips.php";//aplicatii.romanesti
 	}
 
 	private String getLocalFilePath() {

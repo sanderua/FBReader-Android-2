@@ -1,0 +1,76 @@
+1) 
+diff: 
+C:\_me\android\FBReader-Android-2\fbreader\app\src\main\java\org\geometerplus\android\fbreader\library\LibraryActivity.java - C:\_me\android\acatiste.rugaciuni.biblia.ortodox\src\org\geometerplus\android\fbreader\library\LibraryActivity.java
+
+auto open library??
+
+2)
+c:\_me\android\FBReader-Android-2\fbreader\app\src\main\java\org\geometerplus\fbreader\fbreader\options\ViewOptions.java - 
+C:\_me\android\acatiste.rugaciuni.biblia.ortodox\src\org\geometerplus\fbreader\fbreader\FBReaderApp.java
+
+Topic: de pus asta:
+  final ZLStringOption ColorProfileOption =
+    new ZLStringOption("Options", "ColorProfile", ColorProfile.NIGHT);//aplicatii.romanesti: default for day/night is here; I changed the default from DAY to NIGHT
+
+3)
+c:\_me\android\acatiste.rugaciuni.biblia.ortodox\src\org\geometerplus\fbreader\library\Library.java :
+
+Ce e cu asta: ???? si unde trebuie pusa???
+public synchronized void doSyncBuild(){ //by aplicatii.romanesti to replace startBuildg
+
+
+4)
+new FileFirstLevelTree(myRootTree, ROOT_FILE_TREE);//aplicatii.romanesti moved on top ->> and similar
+from: c:\_me\android\acatiste.rugaciuni.biblia.ortodox\src\org\geometerplus\fbreader\library\Library.java :
+
+probably to: 
+c:\_me\android\FBReader-Android-2\fbreader\app\src\main\java\org\geometerplus\fbreader\library\RootTree.java  (see FavoritesTree)
+
+5) DONE
+nicolae from: 
+c:\_me\android\acatiste.rugaciuni.biblia.ortodox\src\org\nicolae\test\BookSearchHintProvider.java
+
+
+6)myDontReloadBook 
+auto load book, skip a useless screen -> TODO -> adapt code 
+c:\_me\android\FBReader-Android-2\fbreader\app\src\main\java\org\geometerplus\android\fbreader\library\BookInfoActivity.java
+
+7)Could not make the Sync (initDbAndLibraryIndex) after copy. New code requried.
+C:\_me\android\FBReader-Android-2\fbreader\app\src\main\java\org\geometerplus\fbreader\fbreader\FBReaderApp.java
+
+
+
+-------- FOR NIk
+https://github.com/gelojavonitalla/FBReader-Android-2
+-> permission checker -> for  WRITE_EXTERNAL_STORAGE, currently we limit targetSDKVersion to 18 (https://developer.android.com/guide/topics/permissions/overview.html)
+                      -> we should https://github.com/googlesamples/android-RuntimePermissions or https://github.com/googlesamples/android-RuntimePermissionsBasic (this one gave me compile errors)
+-> local search book names -> improve to have hints (but only this search, not the search inside the book).
+   Currently we hack few things:
+   - fbreader\app\src\main\java\org\geometerplus\android\fbreader\libraryService\SQLiteBooksDatabase.java
+     make them public :(
+      //final class SQLiteBooksDatabase extends BooksDatabase { //original
+      final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.romanesti hack for nicolae search hints
+
+-> change from fileversion.txt to info in the config db
+
+-> For OpenBooksFolder Hack: "private void openTree" to "protected void openTree" fbreader\app\src\main\java\org\geometerplus\android\fbreader\tree\TreeActivity.java
+
+-> when you open a book, don't show the details window (low prio). Ideally have it as a setting. fbreader\app\src\main\java\org\geometerplus\android\fbreader\library\BookInfoActivity.java
+
+-> Removed tips: 
+   - fbreader\app\src\main\java\org\geometerplus\android\fbreader\tips\TipsActivity.java (hack, just called finish() ). Idelly should be a setting.
+   - fbreader\app\src\main\java\org\geometerplus\fbreader\tips\TipsManager.java
+
+-> Force lang: Ro
+   - fbreader\app\src\main\java\org\geometerplus\fbreader\book\BookUtil.java 
+   - fbreader\app\src\main\java\org\geometerplus\zlibrary\core\language\ZLLanguageUtil.java
+   - fbreader\common\src\main\java\org\geometerplus\zlibrary\core\resources\ZLTreeResource.java
+   -> looks ok.
+
+-> fbreader\app\src\main\java\org\geometerplus\fbreader\fbreader\options\PageTurningOptions.java
+  FingerScrollingType.byFlick);// ex-default was: byTapAndFlick 
+
+-> sdcard copy:
+    - fbreader\app\src\main\java\org\geometerplus\fbreader\fbreader\FBReaderApp.java -> Ideally should be a different class...
+    - fbreader\common\src\main\java\org\geometerplus\fbreader\fbreader\ActionCode.java
+

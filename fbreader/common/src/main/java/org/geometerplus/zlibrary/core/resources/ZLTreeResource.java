@@ -129,8 +129,8 @@ final class ZLTreeResource extends ZLResource {
 		synchronized (ourLock) {
 			if (ourRoot == null) {
 				ourRoot = new ZLTreeResource("", null);
-				ourLanguage = "en";
-				ourCountry = "UK";
+				ourLanguage = "ro";
+				ourCountry = "RO";
 				loadData();
 			}
 		}
@@ -141,6 +141,7 @@ final class ZLTreeResource extends ZLResource {
 		final String language;
 		final String country;
 		if (Language.SYSTEM_CODE.equals(custom)) {
+			Locale.setDefault(new Locale("ro", "RO")); //aplicatii.romanesti
 			final Locale locale = Locale.getDefault();
 			language = locale.getLanguage();
 			country = locale.getCountry();

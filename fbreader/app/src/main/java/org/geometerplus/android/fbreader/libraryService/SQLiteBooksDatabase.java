@@ -42,12 +42,14 @@ import org.geometerplus.fbreader.book.*;
 
 import org.geometerplus.android.util.SQLiteUtil;
 
-final class SQLiteBooksDatabase extends BooksDatabase {
+//final class SQLiteBooksDatabase extends BooksDatabase { //original
+final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.romanesti hack for nicolae search hints
 	private final SQLiteDatabase myDatabase;
 	private final HashMap<String,SQLiteStatement> myStatements =
 		new HashMap<String,SQLiteStatement>();
 
-	SQLiteBooksDatabase(Context context) {
+	//SQLiteBooksDatabase(Context context) {//original
+	public SQLiteBooksDatabase(Context context) {
 		myDatabase = context.openOrCreateDatabase("books.db", Context.MODE_PRIVATE, null);
 		migrate();
 	}

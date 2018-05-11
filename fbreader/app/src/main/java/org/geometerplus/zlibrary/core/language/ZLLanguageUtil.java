@@ -30,7 +30,14 @@ public abstract class ZLLanguageUtil {
 	}
 
 	public static String defaultLanguageCode() {
+		/* before aplicatii.romanesti:
 		return Locale.getDefault().getLanguage();
+		*/
+		//After aplicatii.romanesti:
+		Locale.setDefault(new Locale("ro", "RO")); //aplicatii.romanesti
+		//final String language=Locale.getDefault().getLanguage(); //aplicatii.romanesti
+		//myLanguage = "ro"; //aplicatii.romanesti - yes, previous line is useless, but just for the fun of it. 
+		return "ro";
 	}
 
 	public static List<String> languageCodes() {

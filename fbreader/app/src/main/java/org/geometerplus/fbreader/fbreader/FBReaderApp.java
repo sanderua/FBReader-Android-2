@@ -19,13 +19,23 @@
 
 package org.geometerplus.fbreader.fbreader;
 
+//aplicatii.romanesti imports for SDCardCopy methods
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+//aplicatii.romanesti: end imports for SDCardCopy methods
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
-
+import org.geometerplus.android.fbreader.library.*;//aplicatii.romanesti for DB & Lib index init
 import org.fbreader.common.options.SyncOptions;
 import org.fbreader.util.ComparisonUtil;
 
+import org.geometerplus.android.fbreader.libraryService.SQLiteBooksDatabase;
+import org.geometerplus.android.util.UIUtil; // aplicatii.romanesti
 import org.geometerplus.zlibrary.core.application.*;
 import org.geometerplus.zlibrary.core.drm.FileEncryptionInfo;
 import org.geometerplus.zlibrary.core.drm.EncryptionMethod;
@@ -42,6 +52,22 @@ import org.geometerplus.fbreader.formats.*;
 import org.geometerplus.fbreader.network.sync.SyncData;
 import org.geometerplus.fbreader.util.*;
 
+//aplicatii.romanesti: again for SDCardCopy:
+import org.geometerplus.fbreader.Paths;
+import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
+
+// Dar astea, oare tot de la aplicatii.romanesti??? -> DA, confirmat.
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.res.AssetManager;
+import android.util.Log;
+//////import org.geometerplus.android.fbreader.libraryService.SQLiteBooksDatabase;
+/*import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.bookmodel.BookModel;
+import org.geometerplus.fbreader.bookmodel.TOCTree;
+import org.geometerplus.fbreader.library.*;
+*/
+// pana aci toate???
 public final class FBReaderApp extends ZLApplication implements IBookCollection.Listener<Book> {
 	public interface ExternalFileOpener {
 		public void openFile(ExternalFormatPlugin plugin, Book book, Bookmark bookmark);
@@ -283,6 +309,186 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 			setBookmarkHighlightings(FootnoteView, modelId);
 		}
 	}
+
+/* aplicatii.romanesti COPY FILES TO SDCARD - START */// aplicatii.romanesti
+	public boolean TestIfCopyIsRequired(Context ctx) {
+		//String fileBooksVersion = "/mnt/sdcard/Books/versiune.txt";
+		//String fileBooksVersion = Paths.mainBookDirectory() + "/versiune.txt";
+		//BooksDirectoryOption().getValue()+"/versiune.txt";
+		//File sdCard = Environment.getExternalStorageDirectory();// http://stackoverflow.com/questions/3551821/android-write-to-sd-card-folder//aplicatii.romanesti
+		try {
+			// InputStream in = new FileInputStream(fileBooksVersion);
+
+			//String text = ReadSDCardBooksVersionFile(fileBooksVersion);//no longer required
+			//int verFromSDCard = Integer.parseInt(text);//replaced by verFromCfg
+			int verFromCfg = Paths.BookCollectionVersionOption().getValue();
+
+			PackageInfo pinfo = ctx.getPackageManager().getPackageInfo(
+					ctx.getPackageName(), 0);
+			int verFromAPK = pinfo.versionCode;
+
+//			if (verFromAPK <= verFromSDCard) { // verFromAPK == verFromSDCard ){
+//				// // <=
+//				return false;
+//			}
+
+            if (verFromAPK <= verFromCfg) { // verFromAPK == verFromSDCard ){
+                return false;
+            }
+			// verFromAPK=verFromAPK + verFromSDCard;
+			Log.i("Books Versions", "APK: " + Integer.toString(verFromAPK)
+					+ ", on SDCard (cfg db): " + Integer.toString(verFromCfg));
+
+		} catch (Exception e) {
+			Log.e("SDCardError", e.getMessage());
+			// TO DO - if SDCard Error, we should return false, because it
+			// doesn't make sense to try to copy.
+		}
+		return true;
+	}
+
+//	//no longer required, we store vers in config.db
+//	String ReadSDCardBooksVersionFile(String f) {
+//		StringBuilder text = new StringBuilder();
+//		Scanner scanner = null;
+//		try {
+//			scanner = new Scanner(new FileInputStream(f));// , fEncoding);
+//			// while (scanner.hasNextLine()){
+//			text.append(scanner.nextLine());
+//			// }
+//		} catch (Exception e) {
+//			Log.e("SDCardError", e.getMessage());
+//			text.append("0");
+//		} finally {
+//			if (scanner != null)
+//				scanner.close();
+//		}
+//
+//		return text.toString();
+//	}
+
+	/*
+	 * public void copyBooksToSDCard(Context ctx) { try { if
+	 * (!TestIfCopyIsRequired(ctx)) { return; } Log.i("copyBooksToSDCard",
+	 * "Copy Starts Now"); copyFileOrDir("", ctx); // no trailing slash / please
+	 * !!!; Log.i("copyBooksToSDCard", "Copy Ends Now"); } catch (Exception ex)
+	 * { Log.e("copyBooksToSDCard", ex.getMessage()); } }
+	 */
+	public void copyBooksToSDCard(final Context ctx) {
+
+		UIUtil.wait("creatingBooksDatabase", new Runnable() {
+			public void run() {
+				try {
+					if (!TestIfCopyIsRequired(ctx)) {
+						return;
+					}
+					Log.i("copyBooksToSDCard", "Copy Starts Now");
+					copyFileOrDir("", ctx); // no trailing slash / please !!!;
+					//Log.i("copyBooksToSDCard", "Copy Ends Now");
+//					initDbAndLibraryIndex(ctx); //temp. disabled due to errors in adroid2... //aplicatii.romanesti disabled to be on the safe side. Sunt niste err. de db lock...
+					//Log.i("initDbAndLibraryIndex", "Index Called");
+
+                    PackageInfo pinfo = ctx.getPackageManager().getPackageInfo(
+                            ctx.getPackageName(), 0);
+                    int verFromAPK = pinfo.versionCode;
+                    String versionName = pinfo.versionName;
+
+                    Paths.BookCollectionVersionOption().setValue(verFromAPK);
+				} catch (Exception ex) {
+					Log.e("copyBooksToSDCard", ex.getMessage());
+				}
+			}
+		}, ctx);
+
+	}
+
+	public void copyFileOrDir(String dataSDCardRelativePath, Context ctx) {
+		AssetManager assetManager = ctx.getAssets();
+
+		String assets[] = null;
+		final String apkSrcAssetsdataSDCardPathRoot = "data/SDCard";
+		String dataRootAssetsRelativePath = apkSrcAssetsdataSDCardPathRoot
+				+ dataSDCardRelativePath;
+		try {
+			assets = assetManager.list(dataRootAssetsRelativePath);
+			if (assets.length == 0) {
+				copyFile(dataSDCardRelativePath, ctx);
+			} else {
+				//String fullPath = "/mnt/sdcard/" + dataSDCardRelativePath;
+				String fullPath = Paths.cardDirectory() + dataSDCardRelativePath;//+ "/"
+				//why not Paths.mainBookDirectory() ???
+				File dir = new File(fullPath);
+				if (!dir.exists())
+					if (!dir.mkdir())
+						Log.e("SDCard",
+								"Could not create SDCard folder"
+										+ dir.toString());
+				for (int i = 0; i < assets.length; ++i) {
+					copyFileOrDir(dataSDCardRelativePath + "/" + assets[i], ctx);
+				}
+			}
+		} catch (IOException ex) {
+			Log.e("SDCardCopyError", "I/O Exception", ex);
+		}
+	}
+
+	//aplicatii.romanesti new for android2 porting:
+	//private static SQLiteBooksDatabase ourDatabase;
+	//private static final Object ourDatabaseLock = new Object();
+	//final DataService.Connection DataConnection = new DataService.Connection();
+	// up to here
+
+	public void copyFile(String filename, Context ctx) {
+		AssetManager assetManager = ctx.getAssets();
+
+		InputStream in = null;
+		OutputStream out = null;
+
+		final String apkSrcAssetsdataSDCardPathRoot = "data/SDCard";
+		try {
+			in = assetManager.open(apkSrcAssetsdataSDCardPathRoot + filename);
+			//String newFileName = "/mnt/sdcard" + filename;
+			String newFileName = Paths.cardDirectory() + filename;
+			out = new FileOutputStream(newFileName);
+
+			byte[] buffer = new byte[4096];
+			int read;
+			while ((read = in.read(buffer)) != -1) {
+				out.write(buffer, 0, read);
+			}
+			in.close();
+			in = null;
+			out.flush();
+			out.close();
+			out = null;
+		} catch (Exception e) {
+			Log.e("tag", e.getMessage());
+		}
+
+	}
+
+//	void initDbAndLibraryIndex(Context context) {
+////// old aplicatii.romanesti:
+////		BooksDatabase myDatabase = SQLiteBooksDatabase.Instance();
+////		if (myDatabase == null) {
+////			myDatabase = new SQLiteBooksDatabase(ctx, "LIBRARY");
+////		}
+////		Library myLibrary = Library.Instance();
+////		myLibrary.doSyncBuild();// startBuild(); //modificat ca sa nu porneasca thread, ci sa fie sync.
+//
+//        private static SQLiteBooksDatabase ourDatabase;
+//        private static final Object ourDatabaseLock = new Object();
+//
+//		synchronized (ourDatabaseLock) {
+//			if (ourDatabase == null) {
+//				//ourDatabase = new SQLiteBooksDatabase(context, "LIBRARY"); //LibraryService.this);
+//				ourDatabase = context.openOrCreateDatabase("books.db", Context.MODE_PRIVATE, null);
+//			}
+//		}
+//		myLibrary = new LibraryImplementation(ourDatabase);
+//	}
+
+	/* aplicatii.romanesti COPY FILES TO SDCARD - END */
 
 	private synchronized void openBookInternal(final Book book, Bookmark bookmark, boolean force) {
 		if (!force && Model != null && Collection.sameBook(book, Model.Book)) {

@@ -29,6 +29,7 @@ import android.os.Environment;
 
 import org.fbreader.util.IOUtil;
 
+import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.core.options.ZLStringListOption;
 import org.geometerplus.zlibrary.core.util.SystemInfo;
@@ -75,6 +76,10 @@ public abstract class Paths {
 
 	public static ZLStringOption DownloadsDirectoryOption() {
 		return new ZLStringOption("Files", "DownloadsDirectory", mainBookDirectory());
+	}
+
+	public static ZLIntegerOption BookCollectionVersionOption() {//aplicatii.romanesti -> config BookCollectionVersion
+		return new ZLIntegerOption("Files", "BookCollectionVersion", 0);
 	}
 
 	private static void addDirToList(List<String> list, String candidate) {

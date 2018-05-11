@@ -55,6 +55,11 @@ public class TipsActivity extends Activity {
 		setTitle(resource.getResource("title").getValue());
 
 		if (doInitialize) {
+			myManager.TipsAreInitializedOption.setValue(true);//aplicatii.romanesti
+			myManager.ShowTipsOption.setValue(false);//aplicatii.romanesti
+			//this.finish();//aplicatii.romanesti
+			finish();//aplicatii.romanesti
+			/*
 			checkBox.setVisibility(View.GONE);
 
 			showText(resource.getResource("initializationText").getValue());
@@ -82,7 +87,7 @@ public class TipsActivity extends Activity {
 					myManager.ShowTipsOption.setValue(false);
 					finish();
 				}
-			});
+			});*/ //aplicatii.romanesti
 		} else {
 			checkBox.setText(resource.getResource("dontShowAgain").getValue());
 

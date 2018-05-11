@@ -27,7 +27,7 @@ public class PageTurningOptions {
 		byTap, byFlick, byTapAndFlick
 	}
 	public final ZLEnumOption<FingerScrollingType> FingerScrolling =
-		new ZLEnumOption<FingerScrollingType>("Scrolling", "Finger", FingerScrollingType.byTapAndFlick);
+		new ZLEnumOption<FingerScrollingType>("Scrolling", "Finger", FingerScrollingType.byFlick);//aplicatii.romanesti: ex-default was: byTapAndFlick 
 
 	public final ZLEnumOption<ZLView.Animation> Animation =
 		new ZLEnumOption<ZLView.Animation>("Scrolling", "Animation", ZLView.Animation.slide);

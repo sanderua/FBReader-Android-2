@@ -261,6 +261,8 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 		}
 
 		myFBReaderApp.addAction(ActionCode.SHOW_LIBRARY, new ShowLibraryAction(this, myFBReaderApp));
+		//// TEMP_UPGRADE_Android2_gradele_not_working: myFBReaderApp.addAction(ActionCode.SHOW_LIBRARY_SDCARD, new ShowLibrarySDCardFolderAction(this, fbReader)); //aplicatii.romanesti
+		//NOT WORKING - DISABLED: addMenuItem(menu, ActionCode.SHOW_LIBRARY_OPEN_BOOKS, R.drawable.fbreader);//ic_list_library_folder);//aplicatii.romanesti
 		myFBReaderApp.addAction(ActionCode.SHOW_PREFERENCES, new ShowPreferencesAction(this, myFBReaderApp));
 		myFBReaderApp.addAction(ActionCode.SHOW_BOOK_INFO, new ShowBookInfoAction(this, myFBReaderApp));
 		myFBReaderApp.addAction(ActionCode.SHOW_TOC, new ShowTOCAction(this, myFBReaderApp));
@@ -319,6 +321,13 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 				});
 			}
 		}
+
+        //aplicatii.romanesti start
+		myFBReaderApp.TestIfCopyIsRequired(this); //call 1st time
+		if (myFBReaderApp.TestIfCopyIsRequired(this)) {
+			myFBReaderApp.copyBooksToSDCard(this); //aplicatii.romanesti:  passing context
+		}
+		//aplicatii.romanesti stop
 	}
 
 	@Override
