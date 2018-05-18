@@ -322,11 +322,14 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 			}
 		}
 
-        //aplicatii.romanesti start
-		myFBReaderApp.TestIfCopyIsRequired(this); //call 1st time
-		if (myFBReaderApp.TestIfCopyIsRequired(this)) {
-			myFBReaderApp.copyBooksToSDCard(this); //aplicatii.romanesti:  passing context
-		}
+		//aplicatii.romanesti start
+		Config.Instance().runOnConnect(new Runnable() {
+			public void run() {
+				if (myFBReaderApp.TestIfCopyIsRequired(FBReader.this)) {
+					myFBReaderApp.copyBooksToSDCard(FBReader.this); //aplicatii.romanesti:  passing context
+				}
+			}
+		});
 		//aplicatii.romanesti stop
 	}
 
