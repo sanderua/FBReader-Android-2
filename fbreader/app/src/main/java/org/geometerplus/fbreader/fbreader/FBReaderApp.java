@@ -319,6 +319,14 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 		try {
 			// InputStream in = new FileInputStream(fileBooksVersion);
 
+//            final int brightnessLevel =
+//                    getZLibrary().ScreenBrightnessLevelOption.getValue();
+//            if (brightnessLevel != 0) {
+//                getViewWidget().setScreenBrightness(brightnessLevel);
+//            } else {
+//                setScreenBrightnessAuto();
+//            }
+
 			//String text = ReadSDCardBooksVersionFile(fileBooksVersion);//no longer required
 			//int verFromSDCard = Integer.parseInt(text);//replaced by verFromCfg
 			int verFromCfg = Paths.BookCollectionVersionOption().getValue();

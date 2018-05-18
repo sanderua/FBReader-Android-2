@@ -42,7 +42,6 @@ public abstract class Config {
 	private final Map<StringPair,String> myCache =
 		Collections.synchronizedMap(new HashMap<StringPair,String>());
 	private final Set<String> myCachedGroups = new HashSet<String>();
-
 	public final String getValue(StringPair id, String defaultValue) {
 		String value = myCache.get(id);
 		if (value == null) {
