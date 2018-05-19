@@ -22,7 +22,10 @@ package org.geometerplus.android.fbreader.library;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+
+import org.nicolae.test.LocalLibrarySearchActivity;
 
 public class LibrarySearchActivity extends Activity {
 	@Override
@@ -39,6 +42,16 @@ public class LibrarySearchActivity extends Activity {
 				intent.putExtra(SearchManager.QUERY, pattern);
 				startActivity(intent);
 			}
+		} // TODO See if we can get rid of LocalLibrarySearchActivity (they do roughly the same thing)
+		else if ( LocalLibrarySearchActivity.LOCAL_SEARCH_VIEW.equals(intent.getAction())) {
+			Uri data = intent.getData();
+			final String bookStr = intent.getExtras().getString(SearchManager.EXTRA_DATA_KEY);
+
+			Intent newIntent = new Intent(LocalLibrarySearchActivity.LOCAL_SEARCH_RESULT_VIEW);
+			newIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			newIntent.setData( Uri.fromParts("local-search-result","book-id",bookStr));
+
+			this.startActivity( newIntent);
 		}
 		finish();
 	}

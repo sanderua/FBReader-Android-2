@@ -59,6 +59,9 @@
 		<node name="fileTreeRoot" value="Dispozitiv">
 			<node name="summary" value="Intregul sistem de fisiere a dispozitivului"/>
 		</node>
+		<node name="fileTreeEmbedded" value="Carti incluse - reformuleaza">
+			<node name="summary" value="carti incluse in aplicatie - suna ca naiba"/>
+		</node>
 		<node name="fileTreeCard" value="Cardul de memorie">
 			<node name="withIndex" value="Cardul de memorie Nr %s"/>
 			<node name="summary" value="Cardul de memorie introdus în aparat"/>
@@ -314,6 +317,7 @@
 		</node>
 		<node name="shareBook" value="Împărtășește cartea"/>
 		<node name="search" value="Caută"/>
+		<node name="searchLocalLibrary" value="Caută in biblioteca locală"/>
 		<node name="rotate" value="Rotire ecran"/>
 		<node name="screenOrientation" value="Orientarea ecranului"/>
 		<node name="screenOrientationSystem" value="Sistem"/>

@@ -22,6 +22,7 @@ package org.geometerplus.android.fbreader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -69,6 +70,7 @@ import org.geometerplus.android.fbreader.sync.SyncOperations;
 import org.geometerplus.android.fbreader.tips.TipsActivity;
 
 import org.geometerplus.android.util.*;
+import org.nicolae.test.LocalLibrarySearchActivity;
 
 public final class FBReader extends FBReaderMainActivity implements ZLApplicationWindow {
 	public static final int RESULT_DO_NOTHING = RESULT_FIRST_USER;
@@ -237,7 +239,34 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 		if (myFBReaderApp == null) {
 			myFBReaderApp = new FBReaderApp(Paths.systemInfo(this), new BookCollectionShadow());
 		}
-		getCollection().bindToService(this, null);
+
+		// TODO Ugly... see how to sort it out in myFBReaderApp (once all services are bound)
+		final CountDownLatch configServiceAvailable = new CountDownLatch(1);
+
+		//aplicatii.romanesti start
+		Config.Instance().runOnConnect(new Runnable() {
+			public void run() {
+				System.out.println("copyBooksToSDCard: - config service bound");
+				configServiceAvailable.countDown();
+				// this is needed to make sure that the config service is started before we try
+				// to check whether books have been initialized or not
+			}
+		});
+		//aplicatii.romanesti stop
+
+		getCollection().bindToService(this, new Runnable() {
+			@Override
+			public void run() {
+				try {
+					configServiceAvailable.await();
+					if (myFBReaderApp.TestIfCopyIsRequired(FBReader.this)) {
+						myFBReaderApp.copyBooksToSDCard(FBReader.this); //aplicatii.romanesti:  passing context
+					}
+				} catch (InterruptedException e) {
+					System.out.println("A problem occurred while waiting for the config service to become available.");
+				}
+			}
+		});
 		myBook = null;
 
 		myFBReaderApp.setWindow(this);
@@ -261,6 +290,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 		}
 
 		myFBReaderApp.addAction(ActionCode.SHOW_LIBRARY, new ShowLibraryAction(this, myFBReaderApp));
+		myFBReaderApp.addAction(ActionCode.SEARCH_LOCAL_LIBRARY, new ShowSearchLibraryAction(this, myFBReaderApp));
 		//// TEMP_UPGRADE_Android2_gradele_not_working: myFBReaderApp.addAction(ActionCode.SHOW_LIBRARY_SDCARD, new ShowLibrarySDCardFolderAction(this, fbReader)); //aplicatii.romanesti
 		//NOT WORKING - DISABLED: addMenuItem(menu, ActionCode.SHOW_LIBRARY_OPEN_BOOKS, R.drawable.fbreader);//ic_list_library_folder);//aplicatii.romanesti
 		myFBReaderApp.addAction(ActionCode.SHOW_PREFERENCES, new ShowPreferencesAction(this, myFBReaderApp));
@@ -322,15 +352,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 			}
 		}
 
-		//aplicatii.romanesti start
-		Config.Instance().runOnConnect(new Runnable() {
-			public void run() {
-				if (myFBReaderApp.TestIfCopyIsRequired(FBReader.this)) {
-					myFBReaderApp.copyBooksToSDCard(FBReader.this); //aplicatii.romanesti:  passing context
-				}
-			}
-		});
-		//aplicatii.romanesti stop
+
 	}
 
 	@Override
@@ -381,6 +403,11 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 					}
 				}
 			}
+		} else if (LocalLibrarySearchActivity.LOCAL_SEARCH_RESULT_VIEW.equals(action)) {
+		    // this is the action sent by the local search (and it includes the book id)
+			final BookCollectionShadow collection = getCollection();
+			Book book = collection.getBookById(Long.parseLong(data.getFragment()));
+			myFBReaderApp.openBook(book, null, null, null);
 		} else if (FBReaderIntents.Action.PLUGIN.equals(action)) {
 			new RunPluginAction(this, myFBReaderApp, data).run();
 		} else if (Intent.ACTION_SEARCH.equals(action)) {

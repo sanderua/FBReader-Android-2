@@ -67,6 +67,13 @@ public abstract class AbstractBookCollection<B extends AbstractBook> implements 
 		}
 
 		final String hash0 = getHash(b0, false);
-		return hash0 != null && hash0.equals(getHash(b1, false));
+		final String hash1 = getHash(b1, false);
+
+		// there is some funny behavior when it comes to embedded book hash codes...
+		if ("0000000000000000000000000000000000000000".equals( hash0) && "0000000000000000000000000000000000000000".equals( hash1)){
+			return b0.getPath().equals(b1.getPath());
+		}
+
+		return hash0 != null && hash0.equals(hash1);
 	}
 }

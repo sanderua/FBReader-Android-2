@@ -111,7 +111,7 @@ public class BookSearchHintProvider extends ContentProvider {
 			+ "select " + "	b.book_id as _id, "
 			+ "	b.title as  suggest_text_1, "
 			+ "	f2.name || '/' || f1.name as suggest_text_2, "
-			+ "	f2.name || '/' || f1.name as suggest_intent_extra_data "
+			+ "	b.book_id as suggest_intent_extra_data "
 			+ "from books b, files f1, files f2 "
 			+ "where b.file_id = f1.file_id and f1.parent_id=f2.file_id ";
 
@@ -132,6 +132,13 @@ public class BookSearchHintProvider extends ContentProvider {
 			} catch (Exception e) {
 				myDatabase.execSQL(BOOK_SEARCH_HINTS_CREATE_SQL);
 			}
+		}
+	}
+
+	public synchronized void resetDbConnection(){
+		if ( null != myDatabase){
+			myDatabase.close();
+			myDatabase = null;
 		}
 	}
 

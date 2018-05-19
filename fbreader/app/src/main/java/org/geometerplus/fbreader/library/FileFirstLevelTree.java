@@ -51,6 +51,7 @@ public class FileFirstLevelTree extends FirstLevelTree {
 			addChild(dir, resource().getResource("fileTreeLibrary").getValue(), dir);
 		}
 		addChild("/", "fileTreeRoot");
+		addEmbeddedBooksDir();
 		final List<String> cards = Paths.allCardDirectories();
 		if (cards.size() == 1) {
 			addChild(cards.get(0), "fileTreeCard");
@@ -62,6 +63,18 @@ public class FileFirstLevelTree extends FirstLevelTree {
 			for (String dir : cards) {
 				addChild(dir, title.replaceAll("%s", String.valueOf(++index)), summary);
 			}
+		}
+	}
+
+	// adds the assets/data/SDCard as the embedded books folder
+	private void addEmbeddedBooksDir() {
+		final ZLResource res = resource().getResource("fileTreeEmbedded");
+		final String title = res.getValue();
+		final String summary = res.getResource("summary").getValue();
+
+		final ZLFile zlFile = ZLFile.createFileByPath("data/SDCard");
+		if (zlFile != null) {
+			new FileTree(this, zlFile, title, summary);
 		}
 	}
 

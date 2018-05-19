@@ -55,8 +55,11 @@ import org.geometerplus.fbreader.util.*;
 //aplicatii.romanesti: again for SDCardCopy:
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
+import org.nicolae.test.BookSearchHintProvider;
 
 // Dar astea, oare tot de la aplicatii.romanesti??? -> DA, confirmat.
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
@@ -402,6 +405,12 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
                     String versionName = pinfo.versionName;
 
                     Paths.BookCollectionVersionOption().setValue(verFromAPK);
+                    // tell the content provider to reset (and reload the books DB)
+					ContentResolver resolver = ctx.getContentResolver();
+					ContentProviderClient client = resolver.acquireContentProviderClient("org.nicolae.test.BookSearchHintProvider");
+					BookSearchHintProvider provider = (BookSearchHintProvider) client.getLocalContentProvider();
+					provider.resetDbConnection();
+					client.release();
 				} catch (Exception ex) {
 					Log.e("copyBooksToSDCard", ex.getMessage());
 				}
@@ -410,6 +419,7 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 
 	}
 
+	// TODO - must clean this up once we agree that we DO NOT want to copy books to SDCard...
 	public void copyFileOrDir(String dataSDCardRelativePath, Context ctx) {
 		AssetManager assetManager = ctx.getAssets();
 
@@ -420,17 +430,21 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 		try {
 			assets = assetManager.list(dataRootAssetsRelativePath);
 			if (assets.length == 0) {
-				copyFile(dataSDCardRelativePath, ctx);
+			    // this simply adds the book to the DB
+			    Book book = Collection.getBookByFile( dataRootAssetsRelativePath);
+				Collection.saveBook(book);
+				Log.i("copyBooksToSDCard","!!!Found book " + dataRootAssetsRelativePath);
+				//copyFile(dataSDCardRelativePath, ctx);
 			} else {
 				//String fullPath = "/mnt/sdcard/" + dataSDCardRelativePath;
-				String fullPath = Paths.cardDirectory() + dataSDCardRelativePath;//+ "/"
+				//String fullPath = Paths.cardDirectory() + dataSDCardRelativePath;//+ "/"
 				//why not Paths.mainBookDirectory() ???
-				File dir = new File(fullPath);
-				if (!dir.exists())
-					if (!dir.mkdir())
-						Log.e("SDCard",
-								"Could not create SDCard folder"
-										+ dir.toString());
+//				File dir = new File(fullPath);
+//				if (!dir.exists())
+//					if (!dir.mkdir())
+//						Log.e("SDCard",
+//								"Could not create SDCard folder"
+//										+ dir.toString());
 				for (int i = 0; i < assets.length; ++i) {
 					copyFileOrDir(dataSDCardRelativePath + "/" + assets[i], ctx);
 				}

@@ -35,6 +35,7 @@ public interface ActionCode {
 	String SHARE_BOOK = "shareBook";
 
 	String SEARCH = "search";
+	String SEARCH_LOCAL_LIBRARY = "searchLocalLibrary";
 	String FIND_PREVIOUS = "findPrevious";
 	String FIND_NEXT = "findNext";
 	String CLEAR_FIND_RESULTS = "clearFindResults";

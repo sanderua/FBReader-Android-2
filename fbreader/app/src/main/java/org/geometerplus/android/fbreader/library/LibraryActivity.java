@@ -48,7 +48,7 @@ import org.geometerplus.android.fbreader.libraryService.BookCollectionShadow;
 import org.geometerplus.android.fbreader.tree.TreeActivity;
 
 public class LibraryActivity extends TreeActivity<LibraryTree> implements MenuItem.OnMenuItemClickListener, View.OnCreateContextMenuListener, IBookCollection.Listener<Book> {
-	static final String START_SEARCH_ACTION = "action.fbreader.library.start-search";
+	public static final String START_SEARCH_ACTION = "action.fbreader.library.start-search";
 
 	private final BookCollectionShadow myCollection = new BookCollectionShadow();
 	private volatile RootTree myRootTree;
@@ -67,12 +67,18 @@ public class LibraryActivity extends TreeActivity<LibraryTree> implements MenuIt
 
 		deleteRootTree();
 
+		// just in case we start from the local library search - kick off the search
+		final Intent originalIntent = getIntent();
+
 		myCollection.bindToService(this, new Runnable() {
 			public void run() {
 				setProgressBarIndeterminateVisibility(!myCollection.status().IsComplete);
 				myRootTree = new RootTree(myCollection, PluginCollection.Instance(Paths.systemInfo(LibraryActivity.this)));
 				myCollection.addListener(LibraryActivity.this);
 				init(getIntent());
+				if (START_SEARCH_ACTION.equals(originalIntent.getAction())){
+					onNewIntent( originalIntent);
+				}
 			}
 		});
 	}
