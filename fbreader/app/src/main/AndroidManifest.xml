@@ -4,8 +4,9 @@
 	package="org.geometerplus.zlibrary.ui.android"
 	android:installLocation="auto"
 >
+	<!-- below is expected to be overwritten by the sdk vers in app.gradle -->
 	<uses-sdk
-		android:minSdkVersion="5"
+		android:minSdkVersion="14"
 		android:targetSdkVersion="27"
 	/>
 		<!--android:maxSdkVersion="10"

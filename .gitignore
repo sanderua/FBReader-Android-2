@@ -10,6 +10,7 @@ READY/
 .gradle
 .classpath
 .settings
+*release*.keystore
 *.so
 *~
 .idea/
