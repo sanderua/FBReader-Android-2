@@ -19,12 +19,10 @@ dependencies {
 	api project(':SuperToasts')
 	api project(':AmbilWarna')
 	api project(':zip-amse')
-
 	implementation 'com.android.support:support-v4:27.1.1'
-	implementation ('com.googlecode.json-simple:json-simple:1.1.1') {
+	implementation('com.googlecode.json-simple:json-simple:1.1.1') {
 		exclude group: 'junit', module: 'junit'
 	}
-
 	implementation files('libs/nanohttpd-2.0.5.jar')
 	implementation files('libs/httpmime-4.2.5.jar')
 	implementation files('libs/pdfparse.jar')
@@ -41,14 +39,15 @@ android {
 
 	defaultConfig {
 		minSdkVersion project.ext.globalMinSdkVersion
+		// this will over-write the values in androidmanifest.xml
 		maxSdkVersion project.ext.globalMaxSdkVersion
 		targetSdkVersion project.ext.globalTargetSdkVersion
 		versionCode 0 // this is to be set by code below
 		versionName new File("$projectDir/VERSION").text.trim()
 		multiDexEnabled true
-
 		buildConfigField "String", "FBNETWORK_KEY", "${FBREADER_ORG_FBNETWORK_KEY}"
 		buildConfigField "String", "FBNETWORK_SECRET", "${FBREADER_ORG_FBNETWORK_SECRET}"
+		applicationId 'org.geometerplus.zlibrary.ui.android.aplicatii.romanesti'
 	}
 
 	sourceSets {
@@ -72,7 +71,6 @@ android {
 			debuggable true
 			versionNameSuffix '-DEBUG'
 		}
-
 //		release {
 //			minifyEnabled false
 //			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
@@ -93,6 +91,7 @@ android {
 				// , 'armeabi', 'mips'
 				versionCode 0
 			}
+			applicationId 'org.geometerplus.zlibrary.ui.android.aplicatii.romanesti'
 		}
 		// // arm { //obsolete
 		// // 	dimension 'abi'
@@ -140,7 +139,7 @@ android {
 
 	task ndkBuild(type: Exec) {
 		def ndkDir = project.android.ndkDirectory.absolutePath
-		commandLine "$ndkDir/ndk-build", '-C', file('src/main/jni').absolutePath
+		commandLine "$ndkDir/ndk-build.cmd", '-C', file('src/main/jni').absolutePath
 	}
 
 	tasks.withType(JavaCompile) {

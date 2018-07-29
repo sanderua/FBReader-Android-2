@@ -59,8 +59,8 @@
 		<node name="fileTreeRoot" value="Dispozitiv">
 			<node name="summary" value="Intregul sistem de fisiere a dispozitivului"/>
 		</node>
-		<node name="fileTreeEmbedded" value="Carti incluse - reformuleaza">
-			<node name="summary" value="carti incluse in aplicatie - suna ca naiba"/>
+		<node name="fileTreeEmbedded" value="Carti incluse">
+			<node name="summary" value="carti incluse in aplicatie"/>
 		</node>
 		<node name="fileTreeCard" value="Cardul de memorie">
 			<node name="withIndex" value="Cardul de memorie Nr %s"/>
@@ -988,7 +988,7 @@
 			<node name="loadInfo" value="Se încărca informatiile necesare. Vă rugăm așteptați…"/>
 			<node name="loadingBook" value="Se deschide cartea. Vă rugăm așteptați…"/>
 			<node name="loadingBookList" value="Se dechide biblioteca. Vă rugăm așteptați…"/>
-			<node name="creatingBooksDatabase" value="Se crează baza de date cu cărți. Vă rugăm așteptați…"/>
+			<node name="creatingBooksDatabase" value="Se indexeaza cărțile. Vă rugăm așteptați cateva minute…"/>
 			<node name="updatingBooksDatabase" value="Se actualizează baza de date cu cărți. Vă rugăm așteptați…"/>
 			<node name="loadingNetworkLibrary" value="Se deschide biblioteca. Vă rugăm așteptați…"/>
 			<node name="authentication" value="Autentificare pornită. Vă rugăm așteptați…"/>

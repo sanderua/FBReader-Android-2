@@ -30,8 +30,7 @@ import android.widget.ArrayAdapter;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 import org.geometerplus.zlibrary.core.resources.ZLResource;
-import org.geometerplus.zlibrary.ui.android.R;
-import org.geometerplus.zlibrary.ui.android.util.ZLAndroidColorUtil;
+import org.geometerplus.zlibrary.ui.android.aplicatii.romanesti.R;
 
 import org.geometerplus.fbreader.Paths;
 

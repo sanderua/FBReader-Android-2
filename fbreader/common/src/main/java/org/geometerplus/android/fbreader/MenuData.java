@@ -39,7 +39,7 @@ public abstract class MenuData {
 		if (ourNodes == null) {
 			ourNodes = new ArrayList<MenuNode>();
 			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_LIBRARY, R.drawable.ic_menu_library));
-			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_NETWORK_LIBRARY, R.drawable.ic_menu_networklibrary));
+//			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_NETWORK_LIBRARY, R.drawable.ic_menu_networklibrary));//decluttering  by aplicatii.romanesti
 			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_TOC, R.drawable.ic_menu_toc));
 			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_BOOKMARKS, R.drawable.ic_menu_bookmarks));
 			addToplevelNode(new MenuNode.Item(ActionCode.SWITCH_TO_NIGHT_PROFILE, R.drawable.ic_menu_night));
@@ -48,7 +48,7 @@ public abstract class MenuData {
 			addToplevelNode(new MenuNode.Item(ActionCode.SEARCH_LOCAL_LIBRARY, R.drawable.ic_menu_search));
 			addToplevelNode(new MenuNode.Item(ActionCode.SHARE_BOOK));
 			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_PREFERENCES));
-			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_BOOK_INFO));
+//			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_BOOK_INFO)); //decluttering  by aplicatii.romanesti
 			final MenuNode.Submenu orientations = new MenuNode.Submenu("screenOrientation");
 			orientations.Children.add(new MenuNode.Item(ActionCode.SET_SCREEN_ORIENTATION_SYSTEM));
 			orientations.Children.add(new MenuNode.Item(ActionCode.SET_SCREEN_ORIENTATION_SENSOR));
@@ -62,8 +62,8 @@ public abstract class MenuData {
 			addToplevelNode(new MenuNode.Item(ActionCode.INCREASE_FONT));
 			addToplevelNode(new MenuNode.Item(ActionCode.DECREASE_FONT));
 			addToplevelNode(new MenuNode.Item(ActionCode.SHOW_NAVIGATION));
-			addToplevelNode(new MenuNode.Item(ActionCode.INSTALL_PLUGINS));
-			addToplevelNode(new MenuNode.Item(ActionCode.OPEN_WEB_HELP));
+//			addToplevelNode(new MenuNode.Item(ActionCode.INSTALL_PLUGINS)); //decluttering  by aplicatii.romanesti
+//			addToplevelNode(new MenuNode.Item(ActionCode.OPEN_WEB_HELP)); //decluttering  by aplicatii.romanesti
 			addToplevelNode(new MenuNode.Item(ActionCode.OPEN_START_SCREEN));
 			ourNodes = Collections.unmodifiableList(ourNodes);
 		}

@@ -394,7 +394,7 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 						return;
 					}
 					Log.i("copyBooksToSDCard", "Copy Starts Now");
-					copyFileOrDir("", ctx); // no trailing slash / please !!!;
+                    copyFileOrDir("", ctx); // no trailing slash / please !!!;
 					//Log.i("copyBooksToSDCard", "Copy Ends Now");
 //					initDbAndLibraryIndex(ctx); //temp. disabled due to errors in adroid2... //aplicatii.romanesti disabled to be on the safe side. Sunt niste err. de db lock...
 					//Log.i("initDbAndLibraryIndex", "Index Called");
