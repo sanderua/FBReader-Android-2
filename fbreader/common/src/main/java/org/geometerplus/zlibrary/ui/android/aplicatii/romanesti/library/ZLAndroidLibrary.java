@@ -19,9 +19,12 @@
 
 package org.geometerplus.zlibrary.ui.android.aplicatii.romanesti.library;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import android.app.Application;
 import android.content.Context;
@@ -304,8 +307,64 @@ public final class ZLAndroidLibrary extends ZLibrary {
 
 		@Override
 		public InputStream getInputStream() throws IOException {
-			return myApplication.getAssets().open(getPath());
+			String path = getPath();
+			String[] parts = path.split(":");
+			if ( parts.length == 2 && parts[0].length() > 5 ){
+				String extension = parts[0].substring( parts[0].lastIndexOf('.'), parts[0].length());
+				if ( ".EPUB".equalsIgnoreCase( extension)) {
+					byte[] data = readEntry(myApplication.getAssets().open(parts[0]), parts[1]);
+					if (null != data) {
+						return new ByteArrayInputStream(data);
+					}
+				} else {
+					throw new IOException("Unable to open IOStream for: " + path);
+				}
+			}
+			return myApplication.getAssets().open(path);
 		}
+
+		private byte[] readEntry(InputStream inputStream, String entry) {
+			ZipInputStream zis = new ZipInputStream(inputStream);
+			ZipEntry zipEntry = null;
+			try {
+				zipEntry = zis.getNextEntry();
+				while (zipEntry != null){
+					if ( entry.equals( zipEntry.getName())){
+						byte[] data = new byte[(int)zipEntry.getSize()];
+						int total = (int) zipEntry.getSize();
+						int offset = 0;
+						while ( total > 0){
+							int read = zis.read( data, offset, total);
+							if ( read > 0){
+								total -= read;
+								offset += read;
+							} else {
+								throw new RuntimeException("Unable to finish reading zip entry");
+							}
+						}
+						return data;
+					} else {
+						zis.skip( zipEntry.getCompressedSize());
+					}
+					zipEntry = zis.getNextEntry();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					zis.closeEntry();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				try {
+					zis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
+
 
 		@Override
 		public ZLFile getParent() {
