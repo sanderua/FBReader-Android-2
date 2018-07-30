@@ -102,7 +102,7 @@
 		</node>
 		<node name="search" value="Cautăre">
 			<node name="summary" value="Caută Cărți pe %s"/>
-			<node name="summaryAllCatalogs" value="Caută Cărți în cataloage"/>
+			<node name="summaryAllCatalogs" value="Caută cărți în cataloage"/>
 			<node name="summaryInProgress" value="Cautăre în derulare"/>
 		</node>
 		<node name="found" value="S-au gasit">
@@ -112,7 +112,7 @@
 			<node name="summary" value="Cataloage pe care le-ai vizitat recent"/>
 		</node>
 		<node name="openCatalog" value="Deschide catalogul"/>
-		<node name="networkSearch" value="Cautăre"/>
+		<node name="networkSearch" value="Caută în rețea"/>
 		<node name="showResults" value="Arată rezultatele"/>
 		<node name="showBooks" value="Afișați Cărțile"/>
 		<node name="download" value="Descarcă"/>
@@ -316,8 +316,8 @@
 			<node name="redo" value="Mergeți înainte"/>
 		</node>
 		<node name="shareBook" value="Împărtășește cartea"/>
-		<node name="search" value="Caută"/>
-		<node name="searchLocalLibrary" value="Caută in biblioteca locală"/>
+		<node name="search" value="Caută text"/>
+		<node name="searchLocalLibrary" value="Caută carte"/>
 		<node name="rotate" value="Rotire ecran"/>
 		<node name="screenOrientation" value="Orientarea ecranului"/>
 		<node name="screenOrientationSystem" value="Sistem"/>
