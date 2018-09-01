@@ -102,7 +102,7 @@ public class BookSearchHintProvider extends ContentProvider {
 		return true;
 	}
 
-	private static final String BOOK_SEARCH_HINTS = "BookSearchHints";
+	private static final String BOOK_SEARCH_HINTS = "BookSearchHintsV2";
 
 	// the column names in this view are important
 	// they match SearchManager.SUGGEST_* constants

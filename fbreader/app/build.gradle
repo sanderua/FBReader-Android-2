@@ -9,24 +9,25 @@ buildscript {
 apply plugin: 'com.android.application'
 
 dependencies {
-	implementation project(':api')
-	api project(':util')
-	api project(':common')
-	api project(':resources')
-	api project(':text-formats')
-	api project(':drag-sort-listview')
-	api project(':android-filechooser')
-	api project(':SuperToasts')
-	api project(':AmbilWarna')
-	api project(':zip-amse')
-	implementation 'com.android.support:support-v4:27.1.1'
-	implementation('com.googlecode.json-simple:json-simple:1.1.1') {
-		exclude group: 'junit', module: 'junit'
-	}
-	implementation files('libs/nanohttpd-2.0.5.jar')
-	implementation files('libs/httpmime-4.2.5.jar')
-	implementation files('libs/pdfparse.jar')
+    implementation project(':api')
+    api project(':util')
+    api project(':common')
+    api project(':resources')
+    api project(':text-formats')
+    api project(':drag-sort-listview')
+    api project(':android-filechooser')
+    api project(':SuperToasts')
+    api project(':AmbilWarna')
+    api project(':zip-amse')
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation('com.googlecode.json-simple:json-simple:1.1.1') {
+        exclude group: 'junit', module: 'junit'
+    }
+    implementation files('libs/nanohttpd-2.0.5.jar')
+    implementation files('libs/httpmime-4.2.5.jar')
+    implementation files('libs/pdfparse.jar')
 }
+
 
 android {
 	compileSdkVersion project.ext.globalCompileSdkVersion
@@ -37,18 +38,19 @@ android {
 		abortOnError false
 	}
 
-	defaultConfig {
-		minSdkVersion project.ext.globalMinSdkVersion
-		// this will over-write the values in androidmanifest.xml
-		maxSdkVersion project.ext.globalMaxSdkVersion
-		targetSdkVersion project.ext.globalTargetSdkVersion
-		versionCode 0 // this is to be set by code below
-		versionName new File("$projectDir/VERSION").text.trim()
-		multiDexEnabled true
-		buildConfigField "String", "FBNETWORK_KEY", "${FBREADER_ORG_FBNETWORK_KEY}"
-		buildConfigField "String", "FBNETWORK_SECRET", "${FBREADER_ORG_FBNETWORK_SECRET}"
-		applicationId 'org.geometerplus.zlibrary.ui.android.aplicatii.romanesti'
-	}
+    defaultConfig {
+        minSdkVersion project.ext.globalMinSdkVersion
+        // this will over-write the values in androidmanifest.xml
+        maxSdkVersion project.ext.globalMaxSdkVersion
+        targetSdkVersion project.ext.globalTargetSdkVersion
+        versionCode 0 // this is to be set by code below
+        versionName new File("$projectDir/VERSION").text.trim()
+        multiDexEnabled true
+        buildConfigField "String", "FBNETWORK_KEY", "${FBREADER_ORG_FBNETWORK_KEY}"
+        buildConfigField "String", "FBNETWORK_SECRET", "${FBREADER_ORG_FBNETWORK_SECRET}"
+        applicationId 'org.geometerplus.zlibrary.ui.android.aplicatii.romanesti'
+        signingConfig signingConfigs.release
+    }
 
 	sourceSets {
 		main.aidl.srcDirs = ['src/main/java']
@@ -58,18 +60,12 @@ android {
 		main.jniLibs.srcDirs = ['src/main/libs']
 		main.jni.srcDirs = []
 	}
-
-	signingConfigs {
-		debug {
-		}
-		release {
-		}
-	}
 	buildTypes {
 		debug {
 			minifyEnabled false
 			debuggable true
 			versionNameSuffix '-DEBUG'
+            signingConfig signingConfigs.release
 		}
 //		release {
 //			minifyEnabled false
@@ -82,24 +78,25 @@ android {
 android {
 	flavorDimensions 'abi'
 
-	productFlavors {
-		fat {
-			dimension 'abi'
-			ndk {
-				abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-				// abiFilters 'x86', 'armeabi-v7a'
-				// , 'armeabi', 'mips'
-				versionCode 0
-			}
-			applicationId 'org.geometerplus.zlibrary.ui.android.aplicatii.romanesti'
-		}
-		// // arm { //obsolete
-		// // 	dimension 'abi'
-		// // 	ndk {
-		// // 		abiFilter 'armeabi'
-		// // 		versionCode 1
-		// // 	}
-		// // }
+    productFlavors {
+        fat {
+            dimension 'abi'
+            ndk {
+                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+                // abiFilters 'x86', 'armeabi-v7a'
+                // , 'armeabi', 'mips'
+                versionCode 0
+            }
+            applicationId 'org.geometerplus.zlibrary.ui.android.aplicatii.romanesti'
+            signingConfig signingConfigs.release
+        }
+        // // arm { //obsolete
+        // // 	dimension 'abi'
+        // // 	ndk {
+        // // 		abiFilter 'armeabi'
+        // // 		versionCode 1
+        // // 	}
+        // // }
 //		armv7a {
 //			dimension 'abi'
 //			ndk {
@@ -107,35 +104,35 @@ android {
 //				versionCode 1
 //			}
 //		}
-		// arm64v8a {
-		// 	dimension 'abi'
-		// 	ndk {
-		// 		abiFilter 'arm64-v8a'
-		// 		versionCode 2
-		// 	}
-		// }
-		// x86 {
-		// 	dimension 'abi'
-		// 	ndk {
-		// 		abiFilter 'x86'
-		// 		versionCode 3
-		// 	}
-		// }
-		// x8664 {
-		// 	dimension 'abi'
-		// 	ndk {
-		// 		abiFilter 'x86_64'
-		// 		versionCode 4
-		// 	}
-		// }
-		// // mips { //obsolete
-		// // 	dimension 'abi'
-		// // 	ndk {
-		// // 		abiFilter 'mips'
-		// // 		versionCode 4
-		// // 	}
-		// // }
-	}
+        // arm64v8a {
+        // 	dimension 'abi'
+        // 	ndk {
+        // 		abiFilter 'arm64-v8a'
+        // 		versionCode 2
+        // 	}
+        // }
+        // x86 {
+        // 	dimension 'abi'
+        // 	ndk {
+        // 		abiFilter 'x86'
+        // 		versionCode 3
+        // 	}
+        // }
+        // x8664 {
+        // 	dimension 'abi'
+        // 	ndk {
+        // 		abiFilter 'x86_64'
+        // 		versionCode 4
+        // 	}
+        // }
+        // // mips { //obsolete
+        // // 	dimension 'abi'
+        // // 	ndk {
+        // // 		abiFilter 'mips'
+        // // 		versionCode 4
+        // // 	}
+        // // }
+    }
 
 	task ndkBuild(type: Exec) {
 		def ndkDir = project.android.ndkDirectory.absolutePath

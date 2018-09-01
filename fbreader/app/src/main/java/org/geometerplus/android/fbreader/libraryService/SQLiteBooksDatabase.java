@@ -78,14 +78,40 @@ final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.roman
 		}
 	}
 
+	private void drop_all(){ //aplicatii.romanesti
+		List<String> tables = new ArrayList<String>();
+		//final Cursor cursor = myDatabase.rawQuery("SELECT * FROM sqlite_master WHERE type='table' OR type='view' OR type='index';", null);
+		final Cursor cursor = myDatabase.rawQuery("SELECT * FROM sqlite_master;", null);
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			String tableName = cursor.getString(1);
+			if (!tableName.equals("android_metadata") &&
+					!tableName.equals("sqlite_sequence"))
+				tables.add(tableName);
+			cursor.moveToNext();
+		}
+		cursor.close();
+
+		for(String tableName:tables) {
+			myDatabase.execSQL("DROP TABLE IF EXISTS " + tableName);
+		}
+
+		myDatabase.execSQL("DROP VIEW IF EXISTS BookSearchHints");
+	}
+
 	private void migrate() {
-		final int version = myDatabase.getVersion();
+		/*final*/ int version = myDatabase.getVersion(); //remove final by aplicatii.romanesti
 		final int currentVersion = 41;
 		if (version >= currentVersion) {
 			return;
 		}
 
 		myDatabase.beginTransaction();
+
+//		if (version <= 18){ //aplicatii.romanesti
+//			drop_all();
+//			version=0; // force recreate all
+//		}
 
 		switch (version) {
 			case 0:
@@ -1922,6 +1948,80 @@ final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.roman
 		}
 		cursor.close();
 		myDatabase.execSQL("DROP TABLE IF EXISTS Labels_Obsolete");
+
+		//aplicatii.romanesti: If upgrade is desired note:
+		// - it's very risky, as users might have other folders with books, which we won't have in apk
+		// for now we'll drop_all, which is the safest bet.
+		// change path of books from SDCard to inside apk's assets(data/...):
+		myDatabase.execSQL("UPDATE Files SET name = 'data/SDCard' || substr(name,instr(name,'/Books')) where name like '%/Books%' and parent_id is null;");
+        myDatabase.execSQL("DROP VIEW IF EXISTS BookSearchHints");
+
+        // split from: data/SDCard/Books/Acatiste to data, SDCard, Books, Acatiste
+//        final Cursor cursor = myDatabase.rawQuery("SELECT name FROM Files where name like '%/Books/%'", null);
+//        final SQLiteStatement statement = get("INSERT INTO Labels (label_id,uid,name) VALUES (?,?,?)");
+//        while (cursor.moveToNext()) {
+//            final String name = cursor.getString(1);
+//            final String uuid = uuidByString(name);
+//            statement.bindLong(1, cursor.getLong(0));
+//            statement.bindString(2, uuid);
+//            statement.bindString(3, name);
+//            statement.execute();
+//        }
+//        cursor.close();
+
+/*
+		select name from Files where name like '%/%' and parent_id is null;
+		UPDATE Files SET name = 'data/SDCard' || substr(name,instr(name,'/Books/')) where name like '%/Books/%' and parent_id is null;
+		UPDATE Files SET name = 'data/SDCard/Books' where name like '%/Books' and parent_id is null;
+		select file_id from Files where name='data';
+		delete from Files where name="versiune.txt";
+		delete from Files where name="data/SDCard/Books";
+		UPDATE Files SET parent_id = 2, name = 'SDCard' || substr(name,instr(name,'/Books')) where name like '%data/SDCard/Books%' and parent_id is null;
+
+		INSERT OR IGNORE INTO Files (name,parent_id) VALUES('SDCard',2); // X=2
+		Y=select file_id from Files where name='SDCard'; // 584
+
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Slujbe')) where name like '%SDCard/Books/Slujbe%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Scrieri')) where name like '%SDCard/Books/Scrieri%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Rugaciuni')) where name like '%SDCard/Books/Rugaciuni%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Psalmi')) where name like '%SDCard/Books/Psalmi%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Paraclise')) where name like '%SDCard/Books/Paraclise%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Filocalia')) where name like '%SDCard/Books/Filocalia%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Biblia')) where name like '%SDCard/Books/Biblia%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Acatiste')) where name like '%SDCard/Books/Acatiste%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Canoane')) where name like '%SDCard/Books/Canoane%';
+		UPDATE Files SET parent_id = 584, name = 'Books' || substr(name,instr(name,'/Calendar')) where name like '%SDCard/Books/Calendar%';
+
+		---
+
+		INSERT OR IGNORE INTO Files (name,parent_id) VALUES('Books',585);
+		select file_id from Files where name like 'Books'; // 586
+		select * from Files where name like '%/%';
+
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Acatiste')) where name like '%Books/Acatiste%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Calendar')) where name like '%Books/Calendar%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Scrieri')) where name like '%Books/Scrieri%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Biblia')) where name like '%Books/Biblia%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Canoane')) where name like '%Books/Canoane%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Filocalia')) where name like '%Books/Filocalia%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Psalmi')) where name like '%Books/Psalmi%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Paraclise')) where name like '%Books/Paraclise%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Rugaciuni')) where name like '%Books/Rugaciuni%';
+		UPDATE Files SET parent_id = 586, name = substr(name,instr(name,'Slujbe')) where name like '%Books/Slujbe%';
+
+		INSERT OR IGNORE INTO Files (name,parent_id) VALUES('Scrieri',586);
+		select file_id from Files where name like 'Scrieri'; // 491
+		//select * from Files where name like '%/%';
+
+		UPDATE Files SET parent_id = 491, name = substr(name,instr(name,'APOLOGETICA')) where name like '%Scrieri/APOLOGETICA%';
+		UPDATE Files SET parent_id = 491, name = substr(name,instr(name,'CARTI')) where name like '%Scrieri/CARTI%';
+		UPDATE Files SET parent_id = 491, name = substr(name,instr(name,'CATEHETICA')) where name like '%Scrieri/CATEHETICA%';
+		UPDATE Files SET parent_id = 491, name = substr(name,instr(name,'DIN FILOCALII')) where name like '%Scrieri/DIN FILOCALII%';
+		UPDATE Files SET parent_id = 491, name = substr(name,instr(name,'DIN PATERICE SI PROLOAGE')) where name like '%Scrieri/DIN PATERICE SI PROLOAGE%';
+		UPDATE Files SET parent_id = 491, name = substr(name,instr(name,'PARINTI DUHOVNICESTI')) where name like '%Scrieri/PARINTI DUHOVNICESTI%';
+		UPDATE Files SET parent_id = 491, name = substr(name,instr(name,'SFINTII PARINTI')) where name like '%Scrieri/SFINTII PARINTI%';
+		//end aplicatii.romanesti
+		*/
 	}
 
 	private SQLiteStatement get(String sql) {
