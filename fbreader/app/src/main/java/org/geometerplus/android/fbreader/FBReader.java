@@ -189,7 +189,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 			public void run() {
 				runOnUiThread(new Runnable() {
 					public void run() {
-						new TipRunner().start();
+//						new TipRunner().start(); //aplicatii.romanesti disable tips runner (even if disabled in manifest, it's still running
 						DictionaryUtil.init(FBReader.this, null);
 						final Intent intent = getIntent();
 						if (intent != null && FBReaderIntents.Action.PLUGIN.equals(intent.getAction())) {
@@ -256,9 +256,9 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 			public void run() {
 				try {
 					configServiceAvailable.await();
-					if (myFBReaderApp.TestIfCopyIsRequired(FBReader.this)) {
+//					if (myFBReaderApp.TestIfCopyIsRequired(FBReader.this)) { //se verfica si in functie oricum.
 						myFBReaderApp.copyBooksToSDCard(FBReader.this); //aplicatii.romanesti:  passing context
-					}
+//					}
 				} catch (InterruptedException e) {
 					System.out.println("A problem occurred while waiting for the config service to become available.");
 				}

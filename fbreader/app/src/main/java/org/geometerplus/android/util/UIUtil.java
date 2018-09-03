@@ -109,7 +109,8 @@ public abstract class UIUtil {
 					Pair p = ourTaskQueue.poll();
 					p.Action.run();
 					synchronized (ourMonitor) {
-						ourProgressHandler.sendEmptyMessage(0);
+						ourProgressHandler.
+								sendEmptyMessage(0);
 						try {
 							ourMonitor.wait();
 						} catch (InterruptedException e) {

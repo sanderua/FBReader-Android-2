@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 //aplicatii.romanesti: end imports for SDCardCopy methods
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import org.geometerplus.android.fbreader.library.*;//aplicatii.romanesti for DB & Lib index init
@@ -58,12 +59,15 @@ import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
 import org.nicolae.test.BookSearchHintProvider;
 
 // Dar astea, oare tot de la aplicatii.romanesti??? -> DA, confirmat.
+import android.app.ProgressDialog;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
 import android.util.Log;
+import android.widget.ProgressBar;
+
 //////import org.geometerplus.android.fbreader.libraryService.SQLiteBooksDatabase;
 /*import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.bookmodel.BookModel;
@@ -386,26 +390,32 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 	 * { Log.e("copyBooksToSDCard", ex.getMessage()); } }
 	 */
 	public void copyBooksToSDCard(final Context ctx) {
-
-		UIUtil.wait("creatingBooksDatabase", new Runnable() {
+		final ProgressDialog dialog = new ProgressDialog(ctx);
+		dialog.setMax( countFiles("", ctx.getAssets()));
+		dialog.setMessage("Se indexeaza cartile incluse");
+		dialog.setTitle("Inregistrarea cartilor incluse");
+		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		dialog.setCancelable( false);
+		dialog.show();
+		new Thread( new Runnable() {
 			public void run() {
 				try {
 					if (!TestIfCopyIsRequired(ctx)) {
 						return;
 					}
 					Log.i("copyBooksToSDCard", "Copy Starts Now");
-                    copyFileOrDir("", ctx); // no trailing slash / please !!!;
+					copyFileOrDir("", ctx.getAssets(), dialog); // no trailing slash / please !!!;
 					//Log.i("copyBooksToSDCard", "Copy Ends Now");
 //					initDbAndLibraryIndex(ctx); //temp. disabled due to errors in adroid2... //aplicatii.romanesti disabled to be on the safe side. Sunt niste err. de db lock...
 					//Log.i("initDbAndLibraryIndex", "Index Called");
 
-                    PackageInfo pinfo = ctx.getPackageManager().getPackageInfo(
-                            ctx.getPackageName(), 0);
-                    int verFromAPK = pinfo.versionCode;
-                    String versionName = pinfo.versionName;
+					PackageInfo pinfo = ctx.getPackageManager().getPackageInfo(
+							ctx.getPackageName(), 0);
+					int verFromAPK = pinfo.versionCode;
+					String versionName = pinfo.versionName;
 
-                    Paths.BookCollectionVersionOption().setValue(verFromAPK);
-                    // tell the content provider to reset (and reload the books DB)
+					Paths.BookCollectionVersionOption().setValue(verFromAPK);
+					// tell the content provider to reset (and reload the books DB)
 					ContentResolver resolver = ctx.getContentResolver();
 					ContentProviderClient client = resolver.acquireContentProviderClient("org.nicolae.test.BookSearchHintProvider");
 					BookSearchHintProvider provider = (BookSearchHintProvider) client.getLocalContentProvider();
@@ -413,15 +423,15 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 					client.release();
 				} catch (Exception ex) {
 					Log.e("copyBooksToSDCard", ex.getMessage());
+				} finally {
+					dialog.dismiss();
 				}
 			}
-		}, ctx);
-
+		}).start();
 	}
 
 	// TODO - must clean this up once we agree that we DO NOT want to copy books to SDCard...
-	public void copyFileOrDir(String dataSDCardRelativePath, Context ctx) {
-		AssetManager assetManager = ctx.getAssets();
+	public void copyFileOrDir(String dataSDCardRelativePath, AssetManager assetManager, ProgressDialog dialog) {
 
 		String assets[] = null;
 		final String apkSrcAssetsdataSDCardPathRoot = "data/SDCard";
@@ -430,10 +440,11 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 		try {
 			assets = assetManager.list(dataRootAssetsRelativePath);
 			if (assets.length == 0) {
-			    // this simply adds the book to the DB
-			    Book book = Collection.getBookByFile( dataRootAssetsRelativePath);
+				// this simply adds the book to the DB
+				Book book = Collection.getBookByFile( dataRootAssetsRelativePath);
 				Collection.saveBook(book);
 				Log.i("copyBooksToSDCard","!!!Found book " + dataRootAssetsRelativePath);
+				dialog.incrementProgressBy(1);
 				//copyFile(dataSDCardRelativePath, ctx);
 			} else {
 				//String fullPath = "/mnt/sdcard/" + dataSDCardRelativePath;
@@ -446,12 +457,37 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 //								"Could not create SDCard folder"
 //										+ dir.toString());
 				for (int i = 0; i < assets.length; ++i) {
-					copyFileOrDir(dataSDCardRelativePath + "/" + assets[i], ctx);
+					copyFileOrDir(dataSDCardRelativePath + "/" + assets[i], assetManager, dialog);
 				}
 			}
 		} catch (IOException ex) {
 			Log.e("SDCardCopyError", "I/O Exception", ex);
 		}
+	}
+
+
+	// TODO - must clean this up once we agree that we DO NOT want to copy books to SDCard...
+	public int countFiles(String dataSDCardRelativePath, AssetManager assetManager) {
+
+		String assets[] = null;
+		final String apkSrcAssetsdataSDCardPathRoot = "data/SDCard";
+		String dataRootAssetsRelativePath = apkSrcAssetsdataSDCardPathRoot
+				+ dataSDCardRelativePath;
+		try {
+			assets = assetManager.list(dataRootAssetsRelativePath);
+			if (assets.length == 0) {
+			    return 1;
+			} else {
+				int total = 0;
+				for (int i = 0; i < assets.length; ++i) {
+					total += countFiles(dataSDCardRelativePath + "/" + assets[i], assetManager);
+				}
+				return total;
+			}
+		} catch (IOException ex) {
+			Log.e("SDCardCopyError", "I/O Exception", ex);
+		}
+		return -1;
 	}
 
 	//aplicatii.romanesti new for android2 porting:

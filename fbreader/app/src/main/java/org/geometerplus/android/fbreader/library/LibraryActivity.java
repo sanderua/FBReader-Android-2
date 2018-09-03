@@ -301,9 +301,11 @@ public class LibraryActivity extends TreeActivity<LibraryTree> implements MenuIt
 		addMenuItem(menu, OptionsItemId.UploadAgain, "uploadAgain", -1);
 		addMenuItem(menu, OptionsItemId.TryAgain, "tryAgain", -1);
 		addMenuItem(menu, OptionsItemId.DeleteAll, "deleteAll", -1);
+		/* aplicatii.romanesti
 		if (Build.VERSION.SDK_INT >= 9) {
 			addMenuItem(menu, OptionsItemId.ExternalView, "bookshelfView", -1);
 		}
+		*/
 		return true;
 	}
 
@@ -327,9 +329,9 @@ public class LibraryActivity extends TreeActivity<LibraryTree> implements MenuIt
 
 		final MenuItem rescanItem = menu.findItem(OptionsItemId.Rescan);
 		myCollection.bindToService(this, new Runnable() {
-			public void run() {
-				rescanItem.setEnabled(myCollection.status().IsComplete);
-			}
+				public void run() {
+					rescanItem.setEnabled(myCollection.status().IsComplete);
+				}
 		});
 		rescanItem.setVisible(tree == myRootTree);
 		menu.findItem(OptionsItemId.UploadAgain).setVisible(enableUploadAgain);
