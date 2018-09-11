@@ -316,7 +316,7 @@
 			<node name="redo" value="Mergeți înainte"/>
 		</node>
 		<node name="shareBook" value="Împărtășește cartea"/>
-		<node name="search" value="Caută un text în această carte"/>
+		<node name="search" value="Caută un text în carte"/>
 		<node name="searchLocalLibrary" value=" - Caută o altă carte - "/>
 		<node name="rotate" value="Rotire ecran"/>
 		<node name="screenOrientation" value="Orientarea ecranului"/>
@@ -326,8 +326,8 @@
 		<node name="screenOrientationLandscape" value="Orizontal (Peisaj)"/>
 		<node name="screenOrientationReversePortrait" value="Portret inversat"/>
 		<node name="screenOrientationReverseLandscape" value="Orizontal (Peisaj) inversat"/>
-		<node name="increaseFont" value="Măreste scrisul"/>
-		<node name="decreaseFont" value="Micsorează scrisul"/>
+		<node name="increaseFont" value="Măreste scrisul (+)"/>
+		<node name="decreaseFont" value="Micsorează scrisul (-)"/>
 		<node name="changeFontSize" value="Măreste/Micsorează"/>
 		<node name="toggleFullscreen" value="Pe intreg ecranul"/>
 		<node name="bookmarks" value="Favorite"/>
