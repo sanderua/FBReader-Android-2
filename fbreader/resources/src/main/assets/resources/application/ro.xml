@@ -305,7 +305,7 @@
 		<node name="yotaSwitchToBackScreen" value="Treci la ecranul din spate"/>
 		<node name="yotaSwitchToFrontScreen" value="Treci la ecranul din față"/>
 		<node name="networkLibrary" value="Biblioteca din rețea"/>
-		<node name="navigate" value="Navigați">
+		<node name="navigate" value="Navigați prin carte">
 			<node name="toc" value="Cuprins"/>
 			<node name="gotoHome" value="Du-te la începutul documentului"/>
 			<node name="gotoSectionStart" value="Du-te la începutul textului"/>
@@ -316,8 +316,8 @@
 			<node name="redo" value="Mergeți înainte"/>
 		</node>
 		<node name="shareBook" value="Împărtășește cartea"/>
-		<node name="search" value="Caută text"/>
-		<node name="searchLocalLibrary" value="Caută carte"/>
+		<node name="search" value="Caută un text în această carte"/>
+		<node name="searchLocalLibrary" value=" - Caută o altă carte - "/>
 		<node name="rotate" value="Rotire ecran"/>
 		<node name="screenOrientation" value="Orientarea ecranului"/>
 		<node name="screenOrientationSystem" value="Sistem"/>
@@ -326,8 +326,8 @@
 		<node name="screenOrientationLandscape" value="Orizontal (Peisaj)"/>
 		<node name="screenOrientationReversePortrait" value="Portret inversat"/>
 		<node name="screenOrientationReverseLandscape" value="Orizontal (Peisaj) inversat"/>
-		<node name="increaseFont" value="Măreste"/>
-		<node name="decreaseFont" value="Micsorează"/>
+		<node name="increaseFont" value="Măreste scrisul"/>
+		<node name="decreaseFont" value="Micsorează scrisul"/>
 		<node name="changeFontSize" value="Măreste/Micsorează"/>
 		<node name="toggleFullscreen" value="Pe intreg ecranul"/>
 		<node name="bookmarks" value="Favorite"/>
@@ -745,7 +745,7 @@
 				<node name="startSelecting" value="Apasarea lungă incepe selectarea"/>
 				<node name="openDictionary" value="Apasarea lungă selectează un singur cuvânt, iar la ridicarea degetului se deschide dictionarul"/>
 			</node>
-			<node name="navigateOverAllWords" value="Navigati peste toate cuvintele">
+			<node name="navigateOverAllWords" value="Navigați peste toate cuvintele">
 				<node name="summaryOn" value="Tasta de navigare viziteaza toate cuvintele"/>
 				<node name="summaryOff" value="Tasta de navigare viziteaza numai hyperlink-uri"/>
 			</node>
@@ -839,23 +839,23 @@
 				<node name="summaryOff" value="Tweet text only" toBeTranslated="true"/>
 			</node>
 		</node>
-		<node name="about" value="Despre FBReader">
+		<node name="about" value="Despre Aplicatie">
 			<node name="summary" value="Informații versiune, contacte"/>
 			<node name="version" value="Versiune"/>
-			<node name="site" value="Visitati website-ul nostru">
-				<node name="url" value="https://fbreader.org/"/>
+			<node name="site" value="Vizitati website-ul nostru">
+				<node name="url" value="http://www.bibliotecaortodoxa.ro/"/>
 			</node>
 			<node name="email" value="Trimiteți-ne un e-mail">
-				<node name="url" value="mailto:contact@fbreader.org"/>
+				<node name="url" value="mailto:aplicatii.romanesti@gmail.com"/>
 			</node>
 			<node name="googleplus" value="Participa la comunitatea FBReader pe Google+">
-				<node name="url" value="https://plus.google.com/communities/115894899404862312312"/>
+				<node name="url" value="https://plus.google.com/communities/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="twitter" value="Urmați-ne pe Twitter">
-				<node name="url" value="https://twitter.com/fbreader"/>
+				<node name="url" value="https://twitter.com/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="facebook" value="FBReader pe Facebook">
-				<node name="url" value="https://facebook.com/fbreader"/>
+				<node name="url" value="https://facebook.com/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="telegram" value="Add Telegram channel" toBeTranslated="true">
 				<node name="url" value="https://telegram.me/fbreader" toBeTranslated="true"/>

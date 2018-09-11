@@ -846,22 +846,22 @@
 			<node name="summary" value="Version info, contacts, etc."/>
 			<node name="version" value="Version"/>
 			<node name="site" value="Visit our website">
-				<node name="url" value="https://fbreader.org/"/>
+				<node name="url" value="https://bibliotecaortodoxa.ro/"/>
 			</node>
 			<node name="email" value="Send us an email">
-				<node name="url" value="mailto:contact@fbreader.org"/>
+				<node name="url" value="mailto:aplicatii.romanesti@gmail.com"/>
 			</node>
 			<node name="googleplus" value="Join FBReader Google+ community">
-				<node name="url" value="https://plus.google.com/communities/115894899404862312312"/>
+				<node name="url" value="https://plus.google.com/communities/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="twitter" value="Follow us on Twitter">
-				<node name="url" value="https://twitter.com/fbreader"/>
+				<node name="url" value="https://twitter.com/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="facebook" value="FBReader on Facebook">
-				<node name="url" value="https://facebook.com/fbreader"/>
+				<node name="url" value="https://facebook.com/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="telegram" value="Add Telegram channel">
-				<node name="url" value="https://telegram.me/fbreader"/>
+				<node name="url" value="https://telegram.me/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="thirdParty" value="Third-party libraries"/>
 			<node name="development" value="Developer options">

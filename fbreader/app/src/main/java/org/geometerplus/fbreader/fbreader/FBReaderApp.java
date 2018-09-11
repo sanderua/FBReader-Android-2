@@ -391,18 +391,19 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 	 */
 	public void copyBooksToSDCard(final Context ctx) {
 		final ProgressDialog dialog = new ProgressDialog(ctx);
-		dialog.setMax( countFiles("", ctx.getAssets()));
-		dialog.setMessage("Se indexeaza cartile incluse");
-		dialog.setTitle("Inregistrarea cartilor incluse");
-		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		dialog.setCancelable( false);
-		dialog.show();
+        dialog.setMax( countFiles("", ctx.getAssets()));
+        dialog.setMessage("Se indexeaza cartile incluse");
+        dialog.setTitle("Inregistrarea cartilor incluse");
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setCancelable( false);
+        dialog.show();
 		new Thread( new Runnable() {
 			public void run() {
 				try {
 					if (!TestIfCopyIsRequired(ctx)) {
 						return;
 					}
+
 					Log.i("copyBooksToSDCard", "Copy Starts Now");
 					copyFileOrDir("", ctx.getAssets(), dialog); // no trailing slash / please !!!;
 					//Log.i("copyBooksToSDCard", "Copy Ends Now");
@@ -445,6 +446,7 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 				Collection.saveBook(book);
 				Log.i("copyBooksToSDCard","!!!Found book " + dataRootAssetsRelativePath);
 				dialog.incrementProgressBy(1);
+				//dialog.setMessage(dataSDCardRelativePath);
 				//copyFile(dataSDCardRelativePath, ctx);
 			} else {
 				//String fullPath = "/mnt/sdcard/" + dataSDCardRelativePath;

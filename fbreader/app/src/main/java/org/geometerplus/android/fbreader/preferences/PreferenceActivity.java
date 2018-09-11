@@ -148,95 +148,96 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 			directoriesScreen.Resource, "tempDir", Paths.TempDirectoryOption(this), null
 		));
 
-		final Screen syncScreen = createPreferenceScreen("sync");
-		final PreferenceSet syncPreferences = new PreferenceSet.Enabler() {
-			@Override
-			protected Boolean detectState() {
-				return syncOptions.Enabled.getValue();
-			}
-		};
-		syncScreen.addPreference(new UrlPreference(this, syncScreen.Resource, "site"));
-		syncScreen.addPreference(new ZLCheckBoxPreference(
-			this, syncScreen.Resource.getResource("enable")
-		) {
-			{
-				if (syncOptions.Enabled.getValue()) {
-					setChecked(true);
-					setOnSummary(SyncUtil.getAccountName());
-				} else {
-					setChecked(false);
-				}
-			}
-
-			private void enableSynchronisation() {
-				SyncOperations.enableSync(PreferenceActivity.this, syncOptions);
-			}
-
-			@Override
-			protected void onClick() {
-				super.onClick();
-				syncPreferences.run();
-
-				if (!isChecked()) {
-					SyncUtil.logout(myNetworkContext);
-					syncOptions.Enabled.setValue(false);
-					enableSynchronisation();
-					syncPreferences.run();
-					new SyncData().reset();
-					return;
-				}
-
-				UIUtil.createExecutor(PreferenceActivity.this, "tryConnect").execute(new Runnable() {
-					public void run() {
-						myNetworkContext.perform(
-							new JsonRequest(SyncOptions.BASE_URL + "login/test") {
-								@Override
-								public void processResponse(Object response) {
-									final String account = (String)((Map)response).get("user");
-									syncOptions.Enabled.setValue(account != null);
-									enableSynchronisation();
-									runOnUiThread(new Runnable() {
-										public void run() {
-											setOnSummary(account);
-											syncPreferences.run();
-										}
-									});
-								}
-							},
-							null,
-							new ZLNetworkContext.OnError() {
-								public void run(ZLNetworkException e) {
-									e.printStackTrace();
-									runOnUiThread(new Runnable() {
-										public void run() {
-											setChecked(false);
-										}
-									});
-								}
-							}
-						);
-					}
-				}, null);
-			}
-
-			private void setOnSummary(String account) {
-				final String summary = account != null
-					? Resource.getResource("summaryOnWithAccount").getValue().replace("%s", account)
-					: Resource.getResource("summaryOn").getValue();
-				runOnUiThread(new Runnable() {
-					public void run() {
-						setSummaryOn(summary);
-					}
-				});
-			}
-		});
-		syncPreferences.add(syncScreen.addOption(syncOptions.UploadAllBooks, "uploadAllBooks", "values"));
-		syncPreferences.add(syncScreen.addOption(syncOptions.Positions, "positions", "values"));
-		syncPreferences.add(syncScreen.addOption(syncOptions.ChangeCurrentBook, "changeCurrentBook"));
-		//syncPreferences.add(syncScreen.addOption(syncOptions.Metainfo, "metainfo", "values"));
-		syncPreferences.add(syncScreen.addOption(syncOptions.Bookmarks, "bookmarks", "values"));
-		syncPreferences.add(syncScreen.addOption(syncOptions.CustomShelves, "customShelves", "values"));
-		syncPreferences.run();
+//aplicatii.romanesti -> disable network library sync menu item
+//		final Screen syncScreen = createPreferenceScreen("sync");
+//		final PreferenceSet syncPreferences = new PreferenceSet.Enabler() {
+//			@Override
+//			protected Boolean detectState() {
+//				return syncOptions.Enabled.getValue();
+//			}
+//		};
+//		syncScreen.addPreference(new UrlPreference(this, syncScreen.Resource, "site"));
+//		syncScreen.addPreference(new ZLCheckBoxPreference(
+//			this, syncScreen.Resource.getResource("enable")
+//		) {
+//			{
+//				if (syncOptions.Enabled.getValue()) {
+//					setChecked(true);
+//					setOnSummary(SyncUtil.getAccountName());
+//				} else {
+//					setChecked(false);
+//				}
+//			}
+//
+//			private void enableSynchronisation() {
+//				SyncOperations.enableSync(PreferenceActivity.this, syncOptions);
+//			}
+//
+//			@Override
+//			protected void onClick() {
+//				super.onClick();
+//				syncPreferences.run();
+//
+//				if (!isChecked()) {
+//					SyncUtil.logout(myNetworkContext);
+//					syncOptions.Enabled.setValue(false);
+//					enableSynchronisation();
+//					syncPreferences.run();
+//					new SyncData().reset();
+//					return;
+//				}
+//
+//				UIUtil.createExecutor(PreferenceActivity.this, "tryConnect").execute(new Runnable() {
+//					public void run() {
+//						myNetworkContext.perform(
+//							new JsonRequest(SyncOptions.BASE_URL + "login/test") {
+//								@Override
+//								public void processResponse(Object response) {
+//									final String account = (String)((Map)response).get("user");
+//									syncOptions.Enabled.setValue(account != null);
+//									enableSynchronisation();
+//									runOnUiThread(new Runnable() {
+//										public void run() {
+//											setOnSummary(account);
+//											syncPreferences.run();
+//										}
+//									});
+//								}
+//							},
+//							null,
+//							new ZLNetworkContext.OnError() {
+//								public void run(ZLNetworkException e) {
+//									e.printStackTrace();
+//									runOnUiThread(new Runnable() {
+//										public void run() {
+//											setChecked(false);
+//										}
+//									});
+//								}
+//							}
+//						);
+//					}
+//				}, null);
+//			}
+//
+//			private void setOnSummary(String account) {
+//				final String summary = account != null
+//					? Resource.getResource("summaryOnWithAccount").getValue().replace("%s", account)
+//					: Resource.getResource("summaryOn").getValue();
+//				runOnUiThread(new Runnable() {
+//					public void run() {
+//						setSummaryOn(summary);
+//					}
+//				});
+//			}
+//		});
+//		syncPreferences.add(syncScreen.addOption(syncOptions.UploadAllBooks, "uploadAllBooks", "values"));
+//		syncPreferences.add(syncScreen.addOption(syncOptions.Positions, "positions", "values"));
+//		syncPreferences.add(syncScreen.addOption(syncOptions.ChangeCurrentBook, "changeCurrentBook"));
+//		//syncPreferences.add(syncScreen.addOption(syncOptions.Metainfo, "metainfo", "values"));
+//		syncPreferences.add(syncScreen.addOption(syncOptions.Bookmarks, "bookmarks", "values"));
+//		syncPreferences.add(syncScreen.addOption(syncOptions.CustomShelves, "customShelves", "values"));
+//		syncPreferences.run();
 
 		final Screen appearanceScreen = createPreferenceScreen("appearance");
 		appearanceScreen.addPreference(new LanguagePreference(
@@ -754,8 +755,9 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 			keyBindings.getOption(KeyEvent.KEYCODE_BACK, true), backKeyLongPressActions
 		));
 
-		final Screen tipsScreen = createPreferenceScreen("tips");
-		tipsScreen.addOption(TipsManager.ShowTipsOption, "showTips");
+		//showTips -> disabled by aplicatii.romanesti
+//		final Screen tipsScreen = createPreferenceScreen("tips");
+//		tipsScreen.addOption(TipsManager.ShowTipsOption, "showTips");
 
 		final Screen aboutScreen = createPreferenceScreen("about");
 		aboutScreen.addPreference(new InfoPreference(
