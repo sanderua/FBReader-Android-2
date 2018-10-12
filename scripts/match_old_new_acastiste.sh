@@ -13,7 +13,7 @@ echo "nothing has been chanced, bye" && exit
 set -vx
 rm new all old old.tmp
 set +vx
-cd /mnt/c/_me/android/FBReader-Android-2/fbreader/app/src/main/assets/data/SDCard/Books/Acatiste/
+cd FBReader-Android-2/fbreader/app/src/main/assets/data/SDCard/Books/Acatiste/
 echo "generating list of all *.epub"
 ls *.epub > all
 ls *.epub | grep -v " " >new

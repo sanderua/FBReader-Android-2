@@ -22,7 +22,9 @@ package org.geometerplus.android.fbreader.image;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.*;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.*;
 
 import org.geometerplus.zlibrary.core.image.*;
@@ -37,22 +39,43 @@ import org.geometerplus.android.util.OrientationUtil;
 public class ImageViewActivity extends Activity {
 	public static final String URL_KEY = "fbreader.imageview.url";
 	public static final String BACKGROUND_COLOR_KEY = "fbreader.imageview.background";
-
+    //aplicatii.romanesti - hide navigation bar
+    final ZLAndroidLibrary library = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
+    final boolean showStatusBar = library.ShowStatusBarOption.getValue();
 	private Bitmap myBitmap;
 	private ZLColor myBgColor;
-
+    //aplicatii.romanesti - end
 	@Override
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		final ZLAndroidLibrary library = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
-		final boolean showStatusBar = library.ShowStatusBarOption.getValue();
+		// move the below at class level.
+//		final ZLAndroidLibrary library = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
+//		final boolean showStatusBar = library.ShowStatusBarOption.getValue();
 		getWindow().setFlags(
 			WindowManager.LayoutParams.FLAG_FULLSCREEN,
 			showStatusBar ? 0 : WindowManager.LayoutParams.FLAG_FULLSCREEN
 		);
-
+		//aplicatii.romanesti
+		if (Build.VERSION.SDK_INT >= 19) {  // (SDK 19 - 4.4 kitkat)
+			getWindow().getDecorView().setSystemUiVisibility(
+					//int uiOptions = myShowStatusBarFlag ? 0 : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+					showStatusBar ? 0 :
+					// Enables regular immersive mode.
+					// For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+					// Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY (SDK 19 - 4.4 kitkat)
+					View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+					// Set the content to appear under the system bars so that the
+					// content doesn't resize when the system bars hide and show.
+					View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+					// Hide the nav bar and status bar
+					View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+					View.SYSTEM_UI_FLAG_FULLSCREEN);
+		}
+		//end aplicatii.romanesti
 		Thread.setDefaultUncaughtExceptionHandler(
 			new org.geometerplus.zlibrary.ui.android.aplicatii.romanesti.library.UncaughtExceptionHandler(this)
 		);
@@ -86,6 +109,40 @@ public class ImageViewActivity extends Activity {
 			finish();
 		}
 	}
+
+    //aplicatii.romanesti //navigation
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            if (Build.VERSION.SDK_INT >= 19) {  // (SDK 19 - 4.4 kitkat)
+                // https://stackoverflow.com/questions/1520887/how-to-pause-sleep-thread-or-process-in-android
+                // TODO: verify memory leak as per this link
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getWindow().getDecorView().setSystemUiVisibility(
+                            //int uiOptions = myShowStatusBarFlag ? 0 : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                            showStatusBar ? 0 :
+                            // Enables regular immersive mode.
+                            // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+                            // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY (SDK 19 - 4.4 kitkat)
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                            // Set the content to appear under the system bars so that the
+                            // content doesn't resize when the system bars hide and show.
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                            // Hide the nav bar and status bar
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_FULLSCREEN);
+                    }
+                }, 2500);
+            }
+        }
+    }
+    //aplicatii.romanesti end nav
 
 	@Override
 	protected void onStart() {

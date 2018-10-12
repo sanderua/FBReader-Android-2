@@ -1,2 +1,2 @@
-# All those with c:\_me\android\_PRELUCRARE_EPUBss\Acatiste\old_epub\*.x are new, and should be taken
-for x in *.x; do cp ../new_acatiste/$(basename -s .old_epub.x $x) /mnt/c/_me/android/FBReader-Android-2/fbreader/app/src/main/assets/data/SDCard/Books/Acatiste/ ; done
+# All those with _PRELUCRARE_EPUBss\Acatiste\old_epub\*.x are new, and should be taken
+for x in *.x; do cp ../new_acatiste/$(basename -s .old_epub.x $x) <FULL_PATH>FBReader-Android-2/fbreader/app/src/main/assets/data/SDCard/Books/Acatiste/ ; done

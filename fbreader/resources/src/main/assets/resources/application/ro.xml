@@ -294,7 +294,7 @@
 		<node name="openPremium" value="Deschide FBReader Premium"/>
 		<node name="premium" value="Dialog FBReader Premium"/>
 		<node name="whatsnew" value="Ce este nou"/>
-		<node name="openStartScreen" value="Ecranul de start"/>
+		<node name="openStartScreen" value="Ajutor utilizare"/>
 		<node name="preferences" value="Setări"/>
 		<node name="bookInfo" value="Informații despre carte"/>
 		<node name="library" value="Biblioteca"/>
@@ -839,7 +839,7 @@
 				<node name="summaryOff" value="Tweet text only" toBeTranslated="true"/>
 			</node>
 		</node>
-		<node name="about" value="Despre Aplicatie">
+		<node name="about" value="Ajutor Aplicatie">
 			<node name="summary" value="Informații versiune, contacte"/>
 			<node name="version" value="Versiune"/>
 			<node name="site" value="Vizitati website-ul nostru">

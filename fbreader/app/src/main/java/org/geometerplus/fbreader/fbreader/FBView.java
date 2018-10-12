@@ -19,6 +19,8 @@
 
 package org.geometerplus.fbreader.fbreader;
 
+import android.view.View;
+
 import java.util.*;
 
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;

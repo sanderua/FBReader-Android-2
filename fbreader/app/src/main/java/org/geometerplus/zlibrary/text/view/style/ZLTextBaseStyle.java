@@ -60,7 +60,7 @@ public class ZLTextBaseStyle extends ZLTextStyle {
 	public ZLTextBaseStyle(String prefix, String fontFamily, int fontSize) {
 		super(null, ZLTextHyperlink.NO_LINK);
 		FontFamilyOption = new ZLStringOption(GROUP, prefix + ":fontFamily", fontFamily);
-		fontSize = fontSize * ZLibrary.Instance().getDisplayDPI() / 160;
+		fontSize = (int) Math.round(1.5 * fontSize * ZLibrary.Instance().getDisplayDPI() / 160); // 1.5 increase added my aplicatii.romanesti defaultfontsize
 		FontSizeOption = new ZLIntegerRangeOption(GROUP, prefix + ":fontSize", 5, Math.max(144, fontSize * 2), fontSize);
 		BoldOption = new ZLBooleanOption(GROUP, prefix + ":bold", false);
 		ItalicOption = new ZLBooleanOption(GROUP, prefix + ":italic", false);

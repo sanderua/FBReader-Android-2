@@ -1,4 +1,4 @@
-cd /mnt/c/_me/android/FBReader-Android-2/fbreader/app/src/main/assets/data/SDCard/Books/Acatiste/new_acatiste
+cd FBReader-Android-2/fbreader/app/src/main/assets/data/SDCard/Books/Acatiste/new_acatiste
 
 #echo "generating list of all *.epub (old and new)"
 #ls *.epub > all

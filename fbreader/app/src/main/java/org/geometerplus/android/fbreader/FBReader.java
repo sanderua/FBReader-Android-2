@@ -69,6 +69,8 @@ import org.geometerplus.android.fbreader.tips.TipsActivity;
 import org.geometerplus.android.util.*;
 import org.nicolae.test.LocalLibrarySearchActivity;
 
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
 public final class FBReader extends FBReaderMainActivity implements ZLApplicationWindow {
 	public static final int RESULT_DO_NOTHING = RESULT_FIRST_USER;
 	public static final int RESULT_REPAINT = RESULT_FIRST_USER + 1;
@@ -270,12 +272,29 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 		myFBReaderApp.initWindow();
 
 		myFBReaderApp.setExternalFileOpener(new ExternalFileOpener(this));
-
 		getWindow().setFlags(
 			WindowManager.LayoutParams.FLAG_FULLSCREEN,
 			myShowStatusBarFlag ? 0 : WindowManager.LayoutParams.FLAG_FULLSCREEN
 		);
-
+        //aplicatii.romanesti
+        if (Build.VERSION.SDK_INT >= 19) {  // (SDK 19 - 4.4 kitkat)
+            getWindow().getDecorView().setSystemUiVisibility(
+                //int uiOptions = myShowStatusBarFlag ? 0 : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                myShowStatusBarFlag ? 0 :
+                // Enables regular immersive mode.
+                // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+                // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY (SDK 19 - 4.4 kitkat)
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                // Hide the nav bar and status bar
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                View.SYSTEM_UI_FLAG_FULLSCREEN);
+        }
+        //end aplicatii.romanesti
 		if (myFBReaderApp.getPopupById(TextSearchPopup.ID) == null) {
 			new TextSearchPopup(myFBReaderApp);
 		}
@@ -498,6 +517,36 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 			getZLibrary().BatteryLevelToTurnScreenOffOption.getValue() <
 			myMainView.getBatteryLevel()
 		);
+		//aplicatii.romanesti //navigation
+        if (hasFocus) {
+            if (Build.VERSION.SDK_INT >= 19) {  // (SDK 19 - 4.4 kitkat)
+                // https://stackoverflow.com/questions/1520887/how-to-pause-sleep-thread-or-process-in-android
+                // TODO: verify memory leak as per this link
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getWindow().getDecorView().setSystemUiVisibility(
+                            //int uiOptions = myShowStatusBarFlag ? 0 : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                            myShowStatusBarFlag ? 0 :
+                            // Enables regular immersive mode.
+                            // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+                            // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY (SDK 19 - 4.4 kitkat)
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                            // Set the content to appear under the system bars so that the
+                            // content doesn't resize when the system bars hide and show.
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                            // Hide the nav bar and status bar
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_FULLSCREEN);
+                    }
+                    //end aplicatii.romanesti
+                }, 2500);
+            }
+        }
+        //aplicatii.romanesti end nav
 	}
 
 	private void initPluginActions() {
