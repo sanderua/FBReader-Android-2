@@ -34,7 +34,9 @@ public class CancelMenuHelper {
 	public final ZLBooleanOption ShowLibraryItemOption =
 		new ZLBooleanOption(GROUP_NAME, "library", true);
 	public final ZLBooleanOption ShowNetworkLibraryItemOption =
-		new ZLBooleanOption(GROUP_NAME, "networkLibrary", true);
+		new ZLBooleanOption(GROUP_NAME, "networkLibrary", false);
+	public final ZLBooleanOption ShowSearchLocalLibraryItemOption =
+		new ZLBooleanOption(GROUP_NAME, "searchLocalLibrary", true);
 	public final ZLBooleanOption ShowPreviousBookItemOption =
 		new ZLBooleanOption(GROUP_NAME, "previousBook", false);
 	public final ZLBooleanOption ShowPositionItemsOption =
@@ -47,6 +49,7 @@ public class CancelMenuHelper {
 	public static enum ActionType {
 		library,
 		networkLibrary,
+		searchLocalLibrary,
 		previousBook,
 		returnTo,
 		close
@@ -87,6 +90,11 @@ public class CancelMenuHelper {
 		if (ShowNetworkLibraryItemOption.getValue()) {
 			list.add(new ActionDescription(ActionType.networkLibrary, null));
 		}
+		//aplicatii.romanesti
+		if (ShowSearchLocalLibraryItemOption.getValue()) {
+			list.add(new ActionDescription(ActionType.searchLocalLibrary, null));
+		}
+		//aplicatii.romanesti
 		if (ShowPreviousBookItemOption.getValue()) {
 			final Book previousBook = collection.getRecentBook(1);
 			if (previousBook != null) {

@@ -740,6 +740,7 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 		final Screen cancelMenuScreen = createPreferenceScreen("cancelMenu");
 		cancelMenuScreen.addOption(cancelMenuHelper.ShowLibraryItemOption, "library");
 		cancelMenuScreen.addOption(cancelMenuHelper.ShowNetworkLibraryItemOption, "networkLibrary");
+        cancelMenuScreen.addOption(cancelMenuHelper.ShowSearchLocalLibraryItemOption, "searchLocalLibrary"); //aplicatii.romanesti
 		cancelMenuScreen.addOption(cancelMenuHelper.ShowPreviousBookItemOption, "previousBook");
 		cancelMenuScreen.addOption(cancelMenuHelper.ShowPositionItemsOption, "positions");
 		final String[] backKeyActions =

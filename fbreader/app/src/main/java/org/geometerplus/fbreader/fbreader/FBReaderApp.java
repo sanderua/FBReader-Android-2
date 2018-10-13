@@ -870,6 +870,9 @@ public final class FBReaderApp extends ZLApplication implements IBookCollection.
 			case networkLibrary:
 				runAction(ActionCode.SHOW_NETWORK_LIBRARY);
 				break;
+            case searchLocalLibrary:
+                runAction(ActionCode.SEARCH_LOCAL_LIBRARY);
+                break;
 			case previousBook:
 				openBook(Collection.getRecentBook(1), null, null, null);
 				break;

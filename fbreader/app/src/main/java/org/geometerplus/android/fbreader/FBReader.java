@@ -258,7 +258,7 @@ public final class FBReader extends FBReaderMainActivity implements ZLApplicatio
 			public void run() {
 				try {
 					configServiceAvailable.await();
-//					if (myFBReaderApp.TestIfCopyIsRequired(FBReader.this)) { //se verfica si in functie oricum.
+//					if (myFBReaderApp.TestIfCopyIsRequired(FBReader.this)) { //se verfica si in functie oricum. //aplicatii.romanesti
 						myFBReaderApp.copyBooksToSDCard(FBReader.this); //aplicatii.romanesti:  passing context
 //					}
 				} catch (InterruptedException e) {

@@ -268,6 +268,7 @@
 		<node name="library" value="Deschide libraria"/>
 		<node name="networkLibrary" value="Deschide libraria din rețea"/>
 		<node name="previousBook" value="Deschide cartea anterioră"/>
+        <node name="searchLocalLibrary" value=" - Caută o altă carte - "/>
 		<node name="returnTo" value="Înapoi la …"/>
 		<node name="back" value="Înapoi"/>
 		<node name="forward" value="Înainte"/>
@@ -277,8 +278,8 @@
 	<node name="editStyle" value="Editează stilul">
 		<node name="name" value="Numele stilului"/>
 		<node name="invisible" value="Invizibil">
-			<node name="summaryOn" value="Nu scoate în evidentă semnele de carte"/>
-			<node name="summaryOff" value="Scoate în evidentă semnele de carte"/>
+			<node name="summaryOn" value="Acum nu se scoat în evidentă semnele de carte"/>
+			<node name="summaryOff" value="Acum se scot în evidentă semnele de carte"/>
 		</node>
 		<node name="bgColor" value="Culoarea de fundal"/>
 	</node>
@@ -352,7 +353,7 @@
 				<node name="url" value="https://books.fbreader.org/help.html"/>
 			</node>
 			<node name="enable" value="Activează sincronizarea">
-				<node name="summaryOn" value="Sincronizeazp-mi libraria cu serverul FBReader"/>
+				<node name="summaryOn" value="Sincronizează-mi libraria cu serverul FBReader"/>
 				<node name="summaryOnWithAccount" value="Sincronizează-mi libraria ca %s"/>
 				<node name="summaryOff" value="Nu-mi sincroniza libraria cu serverul FBReader"/>
 			</node>
@@ -404,32 +405,32 @@
 				<node name="summaryOff" value="Ecranul se va roti când utilizatorul rotește aparatul"/>
 			</node>
 			<node name="showStatusBar" value="Arată bara de stare">
-				<node name="summaryOn" value="Afisează bara de stare arata în modul de citire"/>
-				<node name="summaryOff" value="Ascunde bara de stare în modul de citire"/>
+				<node name="summaryOn" value="Acum se afisează bara de stare arata în modul de citire"/>
+				<node name="summaryOff" value="Acum se ascunde bara de stare în modul de citire"/>
 			</node>
 			<node name="showActionBar" value="Afișează bara de actiuni">
-				<node name="summaryOn" value="Afișează bara de acțiuni în modul citire"/>
-				<node name="summaryOff" value="Ascunde bara de acțiuni în modul citire"/>
+				<node name="summaryOn" value="Acum se afișează bara de acțiuni în modul citire"/>
+				<node name="summaryOff" value="Acum se ascunde bara de acțiuni în modul citire"/>
 			</node>
 			<node name="showStatusBarWhenMenuIsActive" value="Arată bara de stare atunci când meniul este activ">
-				<node name="summaryOn" value="Arată bara de stare atunci când meniu devine activ"/>
-				<node name="summaryOff" value="Nu afișați bara de stare atunci când meniul devine activ"/>
+				<node name="summaryOn" value="Acum se arată bara de stare atunci când meniu devine activ"/>
+				<node name="summaryOff" value="Acum nu se va afișa bara de stare atunci când meniul devine activ"/>
 			</node>
 			<node name="fullscreenMode" value="Afișează pe tot ecranul">
-				<node name="summaryOn" value="Ascunde butoanele de navigare"/>
-				<node name="summaryOff" value="Afișează butoanele de navigare"/>
+				<node name="summaryOn" value="Acum se ascunde butoanele de navigare"/>
+				<node name="summaryOff" value="Acum se afișează butoanele de navigare"/>
 			</node>
 			<node name="disableButtonLights" value="Dezactivează lumina butoanelor hardware în timpul lecturii">
-				<node name="summaryOn" value="Dezactivează lumina butonului (nu functioneaă pe unele dispozitive)"/>
-				<node name="summaryOff" value="Nu dezactivați lumina butonului"/>
+				<node name="summaryOn" value="Se va dezactiva lumina butonului (nu functioneaă pe unele dispozitive)"/>
+				<node name="summaryOff" value="Nu se va dezactiva lumina butonului"/>
 			</node>
 			<node name="twoColumnView" value="Afișează pe două coloane">
-				<node name="summaryOn" value="Afișează pe două coloane doar când dispozitivul este pe orizontală"/>
-				<node name="summaryOff" value="Afișează intotdeauna pe o coloană"/>
+				<node name="summaryOn" value="Acum se afișează pe două coloane doar când dispozitivul este pe orizontală"/>
+				<node name="summaryOff" value="Acum se afișează intotdeauna pe o coloană"/>
 			</node>
 			<node name="allowScreenBrightnessAdjustment" value="Reglarea luminozității ecranului">
-				<node name="summaryOn" value="Glisând degetul în sus / jos de-a lungul părții stângi a ecranului"/>
-				<node name="summaryOff" value="Dezactivat"/>
+				<node name="summaryOn" value="Glisând degetul în sus/jos de-a lungul extremității stângi a ecranului"/>
+				<node name="summaryOff" value="S-a dezactivat reglarea luminozității"/>
 			</node>
 			<node name="dontTurnScreenOff" value="Împiedicati modul stand-by">
 				<node name="0" value="Mereu"/>
@@ -438,8 +439,8 @@
 				<node name="100" value="Niciodată"/>
 			</node>
 			<node name="dontTurnScreenOffDuringCharging" value="Împiedicati modul stand-by în timpul încarcarii">
-				<node name="summaryOn" value="Împiedicati modul stand-by, daca aparatul este în modul de încarcare"/>
-				<node name="summaryOff" value="Închide ecran, chiar dacă aparatul este în modul de încarcare"/>
+				<node name="summaryOn" value="Acum se împiedicati modul stand-by, daca aparatul este în modul de încarcare"/>
+				<node name="summaryOff" value="Acum se va închide ecranul, chiar dacă aparatul este în modul de încarcare"/>
 			</node>
 			<node name="enableBookMenuSwipeGesture" value="Activează modul glisare pentru meniul cărților">
 				<node name="summaryOn" value="Glisati din marginea stanga spre interior pentru a deschide meniul cărților"/>
@@ -661,11 +662,11 @@
 				<node name="asPagesAndPercentage" value="Ca număr de pagini și ca procent"/>
 			</node>
 			<node name="showBattery" value="Afișează nivelul bateriei">
-				<node name="summaryOn" value="Afișează nivelul bateriei în subsol"/>
-				<node name="summaryOff" value="Nu afișa nivelul bateriei în subsol"/>
+				<node name="summaryOn" value="Acum se afișează nivelul bateriei în subsol"/>
+				<node name="summaryOff" value="Nu se arată nivelul bateriei în subsol"/>
 			</node>
 			<node name="showClock" value="Afișare ceas">
-				<node name="summaryOn" value="Afișare ceas în subsol"/>
+				<node name="summaryOn" value="Acum se afișează ceas în subsol"/>
 				<node name="summaryOff" value="Nu se arată ceasul în subsol"/>
 			</node>
 			<node name="font" value="Familia de fonturi"/>
@@ -678,12 +679,12 @@
 				<node name="byTapAndFlick" value="Dați pagina apasând sau trecând cu degetul"/>
 			</node>
 			<node name="enableDoubleTapDetection" value="Detectare atingere de doua ori ">
-				<node name="summaryOn" value="Atingeți de doua ori pentru a afișa dialogul de navigare / meniul"/>
-				<node name="summaryOff" value="Ignorați dubla atingere"/>
+				<node name="summaryOn" value="Atingeți de doua ori și se va afișa dialogul de navigare/meniul"/>
+				<node name="summaryOff" value="Se ignoră dubla atingere"/>
 			</node>
-			<node name="volumeKeys" value="Întoarceți pagina cu tastele de volum">
-				<node name="summaryOn" value="Utilizați tastele de volum pentru a întoarce paginile"/>
-				<node name="summaryOff" value="Păstrați tastele de volum pentru sunet"/>
+			<node name="volumeKeys" value="Dați pagina cu tastele de volum">
+				<node name="summaryOn" value="Acum puteți să utilizați tastele de volum pentru a da pagina"/>
+				<node name="summaryOff" value="Acum păstrați tastele de volum pentru sunet"/>
 			</node>
 			<node name="invertVolumeKeys" value="Inversați directia tastelor de volum">
 				<node name="summaryOn" value="Mai tare (mai incet), tasta pentru pagina anterioara (urmatoare)"/>
@@ -746,8 +747,8 @@
 				<node name="openDictionary" value="Apasarea lungă selectează un singur cuvânt, iar la ridicarea degetului se deschide dictionarul"/>
 			</node>
 			<node name="navigateOverAllWords" value="Navigați peste toate cuvintele">
-				<node name="summaryOn" value="Tasta de navigare viziteaza toate cuvintele"/>
-				<node name="summaryOff" value="Tasta de navigare viziteaza numai hyperlink-uri"/>
+				<node name="summaryOn" value="Acum tasta de navigare viziteaza toate cuvintele"/>
+				<node name="summaryOff" value="Acum tasta de navigare viziteaza numai hyperlink-uri"/>
 			</node>
 		</node>
 		<node name="images" value="Imagini">
@@ -764,19 +765,19 @@
 				<node name="all" value="Toate"/>
 			</node>
 			<node name="matchBackground" value="Aliniază cu intensiatea fundalului">
-				<node name="summaryOn" value="Ajustează culoarea imaginii în functie de fundal"/>
-				<node name="summaryOff" value="Nu ajusta culoarea imaginii"/>
+				<node name="summaryOn" value="Acum se ajustează culoarea imaginii în functie de fundal"/>
+				<node name="summaryOff" value="Acum nu se va ajusta culoarea imaginii"/>
 			</node>
 		</node>
 		<node name="menu" value="Meniu">
 			<node name="summary" value="Configurează meniul paginii principale"/>
 			<node name="backgroundCover" value="Folosește coperta ca fundal">
-				<node name="summaryOn" value="Afișează coperta în meniul cărții"/>
-				<node name="summaryOff" value="Păstrează fundalul curat"/>
+				<node name="summaryOn" value="Acum se afișează coperta în meniul cărții"/>
+				<node name="summaryOff" value="Acum se păstrează fundalul curat"/>
 			</node>
 			<node name="bookMenuStatusItem" value="Starea articolului">
-				<node name="summaryOn" value="Afișează starea articolului în meniul cărții"/>
-				<node name="summaryOff" value="Ascunde starea articolului"/>
+				<node name="summaryOn" value="Acum se afișează starea articolului în meniul cărții"/>
+				<node name="summaryOff" value="Acum se ascunde starea articolului"/>
 			</node>
 			<node name="items" value="Intrarile din meniu">
 				<node name="summary" value="Schimbă ordinea intrărilor"/>
@@ -788,23 +789,27 @@
 				<node name="disabled" value="Dezactivat"/>
 			</node>
 		</node>
-		<node name="cancelMenu" value="Anulează meniu">
+		<node name="cancelMenu" value="Meniul butonului înapoi">
 			<node name="summary" value="Lista actiunilor pentru butonul înapoi"/>
 			<node name="library" value="Librarie">
-				<node name="summaryOn" value="Afișează elementul 'deschide libraria'"/>
-				<node name="summaryOff" value="Nu afișa elementul 'deschide libraria'"/>
+				<node name="summaryOn" value="Acum se afișează elementul 'deschide libraria'"/>
+				<node name="summaryOff" value="Acum nu se afișează elementul 'deschide libraria'"/>
 			</node>
 			<node name="networkLibrary" value="Libraria din rețea">
-				<node name="summaryOn" value="Afișează elementul 'deschide libraria din rețea'"/>
-				<node name="summaryOff" value="Nu afișa elementul 'deschide libraria din rețea'"/>
+				<node name="summaryOn" value="Acum se afișează elementul 'deschide libraria din rețea'"/>
+				<node name="summaryOff" value="Acum nu se afișează elementul 'deschide libraria din rețea'"/>
+			</node>
+			<node name="searchLocalLibrary" value="Caută altă carte">
+				<node name="summaryOn" value="Acum se afișează elementul 'Caută altă carte'"/>
+				<node name="summaryOff" value="Acum nu afișează elementul 'Caută altă carte'"/>
 			</node>
 			<node name="previousBook" value="Cartea anterioara">
-				<node name="summaryOn" value="Arată reveniți la cartea precedentă"/>
-				<node name="summaryOff" value="Nu arata reveniți la cartea precedentă"/>
+				<node name="summaryOn" value="Acum se arată reveniți la cartea precedentă"/>
+				<node name="summaryOff" value="Acum nu se afișează reveniți la cartea precedentă"/>
 			</node>
 			<node name="positions" value="Ultimele 3 poziții">
-				<node name="summaryOn" value="Arată articolele pentru ultimele 3 poziții din carte"/>
-				<node name="summaryOff" value="Nu afișa elementele pentru ultimele 3 poziții din carte"/>
+				<node name="summaryOn" value="Acum se arată articolele pentru ultimele 3 poziții din carte"/>
+				<node name="summaryOff" value="Acum nu se vor afișează elementele pentru ultimele 3 poziții din carte"/>
 			</node>
 			<node name="backKeyAction" value="Acțiunea tastei inapoi">
 				<node name="exit" value="Închide Aplicatia"/>
@@ -821,14 +826,14 @@
 		<node name="tips" value="Sfaturi">
 			<node name="summary" value="Setări sfaturi zilnice"/>
 			<node name="showTips" value="Afișează sfaturi">
-				<node name="summaryOn" value="Afișează sfaturi zilnice"/>
+				<node name="summaryOn" value="Acum se afișează sfaturile zilnice"/>
 				<node name="summaryOff" value="Nu afișa"/>
 			</node>
 		</node>
 		<node name="twitter" value="Twitter integration" toBeTranslated="true">
 			<node name="summary" value="How to tweet from FBReader" toBeTranslated="true"/>
-			<node name="enableTwitter" value="Enable tweets" toBeTranslated="true">
-				<node name="summaryOn" value="Show twitter link at end of book" toBeTranslated="true"/>
+			<node name="enableTwitter" value="Activează tweets">
+				<node name="summaryOn" value="Afișează link twitter la sfârșit"/>
 				<node name="summaryOff" value="Do not show twitter link" toBeTranslated="true"/>
 			</node>
 			<node name="tweetText" value="Tweet text" toBeTranslated="true">
@@ -848,7 +853,7 @@
 			<node name="email" value="Trimiteți-ne un e-mail">
 				<node name="url" value="mailto:aplicatii.romanesti@gmail.com"/>
 			</node>
-			<node name="googleplus" value="Participa la comunitatea FBReader pe Google+">
+			<node name="googleplus" value="Participă la comunitatea bibliotecaortodoxa pe Google+">
 				<node name="url" value="https://plus.google.com/communities/bibliotecaortodoxa.ro"/>
 			</node>
 			<node name="twitter" value="Urmați-ne pe Twitter">
@@ -857,7 +862,7 @@
 			<node name="facebook" value="FBReader pe Facebook">
 				<node name="url" value="https://facebook.com/bibliotecaortodoxa.ro"/>
 			</node>
-			<node name="telegram" value="Add Telegram channel" toBeTranslated="true">
+			<node name="telegram" value="Add FBReader Telegram channel" toBeTranslated="true">
 				<node name="url" value="https://telegram.me/fbreader" toBeTranslated="true"/>
 			</node>
 			<node name="thirdParty" value="Biblioteci terțe părți"/>
