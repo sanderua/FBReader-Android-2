@@ -21,6 +21,9 @@ android {
 		minSdkVersion project.ext.globalMinSdkVersion
 		//maxSdkVersion project.ext.globalMaxSdkVersion
 		targetSdkVersion project.ext.globalTargetSdkVersion
+		//aplicatii.romanesti:
+        //multiDexEnabled project.ext.globalMultiDexEnabled
+
 		versionCode 1
 		versionName "1.0"
 	}

@@ -23,10 +23,11 @@ allprojects {
     }
     project.ext {
         globalBuildToolsVersion="28.0.3" //"27.0.3" //"28.0.0-rc1" // '28.0.0 rc1'
-        globalMinSdkVersion=16 //ideally keep 16; for SYSTEM_UI_FLAG_IMMERSIVE_STICKY, do an IF, as we need 19 (KitKat) there
+        globalMinSdkVersion=24 //24 //24(7.0) 16 //ideally keep 16; for SYSTEM_UI_FLAG_IMMERSIVE_STICKY, do an IF, as we need 19 (KitKat) there
         globalMaxSdkVersion=28  // ideally never used
         globalTargetSdkVersion=28 //18 //27 //'P' //27 //MAX 18 for SDCARD READ/WRITE Permissions without adding more code
         globalCompileSdkVersion=28 //'android-P' //27
+        //globalMultiDexEnabled=true
     }
     //project.android.ndkDirectory="C:\\_me\\android\\sdk\\ndk-bundle"
 

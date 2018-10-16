@@ -27,6 +27,7 @@ import android.content.Context;
 import android.database.sqlite.*;
 import android.database.SQLException;
 import android.database.Cursor;
+import android.util.Log;
 
 import org.fbreader.util.IOUtil;
 
@@ -92,26 +93,32 @@ final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.roman
 		}
 		cursor.close();
 
+        myDatabase.execSQL("DROP VIEW IF EXISTS BookSearchHints");
+
+        myDatabase.execSQL("DROP VIEW IF EXISTS BookSearchHintsV2");
+
 		for(String tableName:tables) {
 			myDatabase.execSQL("DROP TABLE IF EXISTS " + tableName);
 		}
 
-		myDatabase.execSQL("DROP VIEW IF EXISTS BookSearchHints");
 	}
 
 	private void migrate() {
+
 		/*final*/ int version = myDatabase.getVersion(); //remove final by aplicatii.romanesti
-		final int currentVersion = 41;
+		final int currentVersion = 44;
 		if (version >= currentVersion) {
 			return;
 		}
-
+        Log.i("DB:migrate:","new (currentVersion): " + Integer.toString(currentVersion) +  "old (version): " + Integer.toString(version) );
 		myDatabase.beginTransaction();
 
-//		if (version <= 18){ //aplicatii.romanesti
-//			drop_all();
-//			version=0; // force recreate all
-//		}
+		//if (version <= 18){ //aplicatii.romanesti
+		if (version <= currentVersion-1){ //aplicatii.romanesti
+            Log.i("DB:migrate","FORCING DROP ALL" );
+			drop_all();
+			version=0; // force recreate all
+		}
 
 		switch (version) {
 			case 0:
@@ -196,12 +203,17 @@ final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.roman
 				updateTables39();
 			case 40:
 				updateTables40();
+            default:
+                updateTables_default();
+
+
 		}
 		myDatabase.setTransactionSuccessful();
 		myDatabase.setVersion(currentVersion);
 		myDatabase.endTransaction();
 
 		myDatabase.execSQL("VACUUM");
+        Log.i("DB:migrate","Done recreating DB from zero" );
 	}
 
 	@Override
@@ -1953,8 +1965,9 @@ final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.roman
 		// - it's very risky, as users might have other folders with books, which we won't have in apk
 		// for now we'll drop_all, which is the safest bet.
 		// change path of books from SDCard to inside apk's assets(data/...):
-		myDatabase.execSQL("UPDATE Files SET name = 'data/SDCard' || substr(name,instr(name,'/Books')) where name like '%/Books%' and parent_id is null;");
-        myDatabase.execSQL("DROP VIEW IF EXISTS BookSearchHints");
+
+//        myDatabase.execSQL("UPDATE Files SET name = 'data/SDCard' || substr(name,instr(name,'/Books')) where name like '%/Books%' and parent_id is null;");
+//        myDatabase.execSQL("DROP VIEW IF EXISTS BookSearchHints");
 
         // split from: data/SDCard/Books/Acatiste to data, SDCard, Books, Acatiste
 //        final Cursor cursor = myDatabase.rawQuery("SELECT name FROM Files where name like '%/Books/%'", null);
@@ -2023,6 +2036,12 @@ final public class SQLiteBooksDatabase extends BooksDatabase { //aplicatii.roman
 		//end aplicatii.romanesti
 		*/
 	}
+
+    private void updateTables_default() {
+	    //aplicatii.romanesti
+        //placeholder, do nothing.
+	    return;
+    }
 
 	private SQLiteStatement get(String sql) {
 		SQLiteStatement statement = myStatements.get(sql);

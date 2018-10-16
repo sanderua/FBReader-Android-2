@@ -45,7 +45,11 @@ android {
         targetSdkVersion project.ext.globalTargetSdkVersion
         versionCode 0 // this is to be set by code below
         versionName new File("$projectDir/VERSION").text.trim()
-        multiDexEnabled true
+
+		multiDexEnabled true
+		//aplicatii.romanesti:
+		//multiDexEnabled project.ext.globalMultiDexEnabled
+
         buildConfigField "String", "FBNETWORK_KEY", "${FBREADER_ORG_FBNETWORK_KEY}"
         buildConfigField "String", "FBNETWORK_SECRET", "${FBREADER_ORG_FBNETWORK_SECRET}"
         applicationId 'org.geometerplus.zlibrary.ui.android.aplicatii.romanesti'

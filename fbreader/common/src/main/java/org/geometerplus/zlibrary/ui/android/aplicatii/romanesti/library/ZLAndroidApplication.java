@@ -19,12 +19,13 @@
 
 package org.geometerplus.zlibrary.ui.android.aplicatii.romanesti.library;
 
-import android.support.multidex.MultiDexApplication;
+//import android.support.multidex.MultiDexApplication; //aplicatii.romanesti - before sdk 21
+import android.app.Application; //aplicatii.romanesti - after sdk 21
 import org.geometerplus.zlibrary.ui.android.aplicatii.romanesti.image.ZLAndroidImageManager;
 
 import org.geometerplus.android.fbreader.config.ConfigShadow;
 
-public abstract class ZLAndroidApplication extends MultiDexApplication {
+public abstract class ZLAndroidApplication extends Application { //MultiDexApplication { //aplicatii.romanesti sdk 21 and above
 	private ZLAndroidLibrary myLibrary;
 	private ConfigShadow myConfig;
 
