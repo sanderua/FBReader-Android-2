@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 buildscript {
 	repositories {
 		jcenter()
@@ -20,7 +22,8 @@ dependencies {
 	api project(':AmbilWarna')
 	api project(':zip-amse')
 
-	implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
+	implementation 'com.android.support:support-v4:28.0.0'
 	implementation ('com.googlecode.json-simple:json-simple:1.1.1') {
 		exclude group: 'junit', module: 'junit'
 	}
@@ -41,11 +44,10 @@ android {
 
 	defaultConfig {
 		minSdkVersion project.ext.globalMinSdkVersion
-		maxSdkVersion project.ext.globalMaxSdkVersion
 		targetSdkVersion project.ext.globalTargetSdkVersion
 		versionCode 0
 		versionName new File("$projectDir/VERSION").text.trim()
-		multiDexEnabled true
+		multiDexEnabled project.ext.globalMultiDexEnabled
 
 		buildConfigField "String", "FBNETWORK_KEY", "${FBREADER_ORG_FBNETWORK_KEY}"
 		buildConfigField "String", "FBNETWORK_SECRET", "${FBREADER_ORG_FBNETWORK_SECRET}"
@@ -61,22 +63,23 @@ android {
 	}
 
 	signingConfigs {
-		debug {
-		}
 		release {
+			storeFile file(RELEASE_STORE_FILE)
+			storePassword RELEASE_STORE_PASSWORD
+			keyAlias RELEASE_KEY_ALIAS
+			keyPassword RELEASE_KEY_PASSWORD
 		}
 	}
+
 	buildTypes {
 		debug {
-			minifyEnabled false
-			debuggable true
+			applicationIdSuffix '.debug'
 			versionNameSuffix '-DEBUG'
 		}
-
 		release {
 			minifyEnabled false
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
-//			signingConfig signingConfigs.release
+			signingConfig signingConfigs.release
 		}
 	}
 }
@@ -89,17 +92,9 @@ android {
 			dimension 'abi'
 			ndk {
 				abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-				// , 'armeabi', 'mips' //obsolete
 				versionCode 0
 			}
 		}
-		// // arm { //obsolete
-		// // 	dimension 'abi'
-		// // 	ndk {
-		// // 		abiFilter 'armeabi'
-		// // 		versionCode 1
-		// // 	}
-		// // }
 		// armv7a {
 		// 	dimension 'abi'
 		// 	ndk {
@@ -128,18 +123,12 @@ android {
 		// 		versionCode 4
 		// 	}
 		// }
-		// // mips { //obsolete
-		// // 	dimension 'abi'
-		// // 	ndk {
-		// // 		abiFilter 'mips'
-		// // 		versionCode 4
-		// // 	}
-		// // }
 	}
 
 	task ndkBuild(type: Exec) {
 		def ndkDir = project.android.ndkDirectory.absolutePath
-		commandLine "$ndkDir\\ndk-build.cmd", '-C', file('src/main/jni').absolutePath
+		def ndkBuild = Os.isFamily(Os.FAMILY_WINDOWS) ? 'ndk-build.cmd' : 'ndk-build'
+		commandLine "$ndkDir/$ndkBuild", '-C', file('src/main/jni').absolutePath
 	}
 
 	tasks.withType(JavaCompile) {

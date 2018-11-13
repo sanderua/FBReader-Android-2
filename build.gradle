@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 
@@ -22,10 +22,10 @@ allprojects {
         }
     }
     project.ext {
-        globalBuildToolsVersion="27.0.3" //"28.0.0-rc1" // '28.0.0 rc1'
-        globalMinSdkVersion=16
-        globalMaxSdkVersion=27
-        globalTargetSdkVersion=18 //27 //'P' //27 //MAX 18 for SDCARD READ/WRITE Permissions without adding more code
-        globalCompileSdkVersion=27 //'android-P' //27 
+        globalCompileSdkVersion=28
+        globalBuildToolsVersion='28.0.3'
+        globalMinSdkVersion=16 // 16 is the minimum API level with distribution > 1% (https://developer.android.com/about/dashboards/)
+        globalTargetSdkVersion=18 // 18 for SDCARD READ/WRITE permissions without adding more code
+        globalMultiDexEnabled=true
     }
 }

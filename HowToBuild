@@ -3,31 +3,21 @@ How to Build for Android
 
 Prerequisites:
 
-1. Android SDK >= 1.6
+1. Android Studio >= 3.2.1
 
-2. Android NDK >= r4b
+2. latest Android SDK
 
-3. Apache Ant >= 1.7.0
-
-4. (Windows-only) Cygwin >= 1.7
+3. latest Android NDK
 
 To build:
 
-1. Create 'local.properties' file containing sdk.dir && ndk.dir definitions:
-	sdk.dir=<path to the Android SDK folder>
-	ndk.dir=<path to the Android NDK folder>
-E.g., on my computer 'local.properties' consists of 2 lines:
-  sdk.dir=/Users/geometer/android-sdk-mac_86
-  ndk.dir=/Users/geometer/android-ndk-r4b
+1. Create 'gradle.properties' file in Gradle user home directory (which defaults to $USER_HOME/.gradle)
+containing signing configs:
+    RELEASE_STORE_FILE=<path to the store file>
+    RELEASE_STORE_PASSWORD=<store password>
+    RELEASE_KEY_ALIAS=<key alias>
+    RELEASE_KEY_PASSWORD=<key password>
 
-2. If you use Linux or MacOS, just run 'ant package' and go to step 3. For debugging 
-purposes, you might want to run 'ant dbg' for building the package in debug mode, signing 
-with your debug key (in this case, you can skip step 3).
+2. Import project to the Android Studio
 
-If you are Windows user
-  2a. Run ndk-build (a program from Android NDK directory) in your project catalog;
-      This program only runs from Cygwin >= 1.7, please read NDK docs for details.
-      Read and try config cygwin using 'cygwin_installation_and_configuration.pdf'
-  2b. Run 'ant release'.
-
-3. Sign your package manually.
+3. Use the Build menu to build project

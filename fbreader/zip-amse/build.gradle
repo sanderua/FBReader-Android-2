@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 apply plugin: 'com.android.library'
 
 dependencies {
@@ -19,7 +21,6 @@ android {
 
 	defaultConfig {
 		minSdkVersion project.ext.globalMinSdkVersion
-		//maxSdkVersion project.ext.globalMaxSdkVersion
 		targetSdkVersion project.ext.globalTargetSdkVersion
 		versionCode 1
 		versionName "1.0"
@@ -27,7 +28,8 @@ android {
 
 	task ndkBuild(type: Exec) {
 		def ndkDir = project.android.ndkDirectory.absolutePath
-		commandLine "$ndkDir\\ndk-build.cmd", '-C', file('src/main/jni').absolutePath
+		def ndkBuild = Os.isFamily(Os.FAMILY_WINDOWS) ? 'ndk-build.cmd' : 'ndk-build'
+		commandLine "$ndkDir/$ndkBuild", '-C', file('src/main/jni').absolutePath
 	}
 
 	tasks.withType(JavaCompile) {
@@ -37,7 +39,5 @@ android {
 	clean {
 		delete 'src/main/obj'
 		delete 'src/main/libs'
-	}
-	productFlavors {
 	}
 }
